@@ -8,10 +8,15 @@ import { IonicModule } from '@ionic/angular';
 import { PlacesPage } from './places.page';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: PlacesPage
-  }
+  { path: '', component: PlacesPage, pathMatch: 'full', children:[
+      { path: '/tabs', children:[
+          { path:'', redirectTo: 'discover' },
+          { path: 'discover', loadChildren: './discover/discover.module#DiscoverPageModule' },
+          { path: 'offers', loadChildren: './offers/offers.module#OffersPageModule' }
+        ]
+      }
+    ] 
+  }, 
 ];
 
 @NgModule({
