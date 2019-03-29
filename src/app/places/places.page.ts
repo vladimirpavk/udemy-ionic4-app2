@@ -12,4 +12,12 @@ export class PlacesPage implements OnInit {
   ngOnInit() {
   }
 
+  private ionTabsDidChange(){
+    //console.log('ionTabsDidChange');
+  }
+
+  private ionTabsWillChange(){
+    //console.log('ionTabsWillChange');
+  }
+
 }

@@ -8,10 +8,8 @@ import { IonicModule } from '@ionic/angular';
 import { DiscoverPage } from './discover.page';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: DiscoverPage
-  }
+  { path: '', component: DiscoverPage, pathMatch: 'full' },
+  { path: 'place-detail/:id', loadChildren: './discover/place-detail/place-detail.module#PlaceDetailPageModule' }
 ];
 
 @NgModule({
