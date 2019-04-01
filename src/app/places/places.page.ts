@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PlacesService } from './places.service';
 
 @Component({
   selector: 'app-places',
@@ -9,7 +10,7 @@ export class PlacesPage implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit() {    
   }
 
   private ionTabsDidChange(){
