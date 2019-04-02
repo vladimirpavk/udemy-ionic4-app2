@@ -12,13 +12,15 @@ export class DiscoverPage implements OnInit {
 
   private _randomIndex:number;
   private _places:Place[] = []; 
+  private _favoritePlace:Place;
 
   constructor(private _placesService:PlacesService) { }
 
   ngOnInit() {
-    const rnd = CommonModule.randomize(this._placesService.getPlaces())
-    console.log(rnd);
+    let places = this._placesService.getPlaces();
+    const rnd = CommonModule.randomize(places)    
     this._places = rnd.output;
     this._randomIndex = rnd.index;
+    this._favoritePlace = places[this._randomIndex];
   } 
 }

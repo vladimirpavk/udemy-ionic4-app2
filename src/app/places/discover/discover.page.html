@@ -7,26 +7,57 @@
 <ion-content>
     <ion-grid>
         <ion-row>
-            <ion-col size="12" text-center>
-                <ion-card *ngFor="let place of _places">
-                        <ion-card-header>
-                            <ion-card-title>
-                                {{ place.title }}
-                            </ion-card-title>
-                            <ion-card-subtitle>
-                                {{ place.price | currency }} / night
-                            </ion-card-subtitle>
-                        </ion-card-header>
-                        <ion-img [src]="place.imageUrl"></ion-img>
-                        <ion-card-content>                      
-                            <p>
-                                    {{ place.description }}
-                            </p>
-                        </ion-card-content>
+            <ion-col size="12" size-sm="8" offset-sm="2" text-center>
+                <ion-card>
+                    <ion-card-header>
+                        <ion-card-title>
+                            {{ _favoritePlace.title }}
+                        </ion-card-title>
+                        <ion-card-subtitle>
+                            {{ _favoritePlace.price | currency }} / night
+                        </ion-card-subtitle>
+                    </ion-card-header>
+                    <ion-img [src]="_favoritePlace.imageUrl"></ion-img>
+                    <ion-card-content>                      
+                        <p>
+                            {{ _favoritePlace.description }}
+                        </p>                       
+                    </ion-card-content>
+                    <div text-end no-padding>
+                        <ion-button
+                            fill="clear"
+                            text-right
+                            [routerLink]="['/places/tabs/discover', _favoritePlace.id]"
+                        >MORE</ion-button>
+                    </div>                    
                 </ion-card>
             </ion-col>
         </ion-row>
-    </ion-grid>
+        <ion-row>
+            <ion-col size="12" size-sm="8" offset-sm="2" text-center>
+                <ion-list>
+                    <ion-item
+                        *ngFor="let place of _places"
+                        [routerLink]="['/places/tabs/discover', place.id]"
+                        detail="true"
+                    >
+                        <ion-thumbnail slot="start">
+                            <ion-img [src]="place.imageUrl"></ion-img>
+                        </ion-thumbnail>
+                        <ion-label>
+                            <h2>
+                                {{ place.title }}
+                            </h2>
+                            <p>
+                                {{ place.description }}
+                            </p>
+                        </ion-label>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+        </ion-grid>
 </ion-content>
+
 
 
