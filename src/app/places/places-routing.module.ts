@@ -9,8 +9,7 @@ const routes: Routes = [
       { path: 'discover', loadChildren: './discover/discover.module#DiscoverPageModule' },
       { path: 'offers', loadChildren: './offers/offers.module#OffersPageModule' }
      ]
-    }, 
-    
+    }    
   ];
 
 @NgModule({

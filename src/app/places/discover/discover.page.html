@@ -27,7 +27,7 @@
                         <ion-button
                             fill="clear"
                             text-right
-                            [routerLink]="['/places/tabs/discover', _favoritePlace.id]"
+                            [routerLink]="['/','places', 'tabs', 'discover', _favoritePlace.id]"
                         >MORE</ion-button>
                     </div>                    
                 </ion-card>
@@ -38,7 +38,7 @@
                 <ion-list>
                     <ion-item
                         *ngFor="let place of _places"
-                        [routerLink]="['/places/tabs/discover', place.id]"
+                        [routerLink]="['/','places', 'tabs', 'discover', place.id]"
                         detail="true"
                     >
                         <ion-thumbnail slot="start">
