@@ -1,9 +1,41 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>auth</ion-title>
+    <ion-title>Auth</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col>        
+        <ion-label>Enter email</ion-label>              
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>          
+          <ion-input placeholder="e-mail"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label>Enter password</ion-label>            
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    <ion-row>
+        <ion-col>
+          <ion-item>            
+            <ion-input placeholder="password"></ion-input>
+          </ion-item>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="onLoginClicked()">Login</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
