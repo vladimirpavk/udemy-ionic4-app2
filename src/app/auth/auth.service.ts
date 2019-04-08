@@ -9,8 +9,7 @@ export class AuthService {
 
   constructor() { }
 
-  public isAuth():boolean{
-    console.log(this._isAuthenticated);
+  public isAuth():boolean{   
     return this._isAuthenticated;
   }
 

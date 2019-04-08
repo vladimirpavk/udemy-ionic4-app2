@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ModalController, NavParams } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { CreateBookingPage } from './create-booking/create-booking.page';
 import { OverlayEventDetail } from '@ionic/core';
 
@@ -25,15 +25,13 @@ export class PlaceDetailPage implements OnInit {
     );  
   }
 
-  private async CreateBookingModal() {
+  private async CreateBookingModal():Promise<OverlayEventDetail> {
     const modalDialog:HTMLIonModalElement = await this._modalController.create({
       component: CreateBookingPage,
       componentProps:{
         value: 123
       }
     });
-    /*const eventDetail:OverlayEventDetail = await modalDialog.onDidDismiss();    
-    console.log(eventDetail);*/
     modalDialog.present();
     return modalDialog.onDidDismiss();
   }

@@ -17,8 +17,7 @@ export class CanActivatePlacesGuardService implements CanActivate{
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ):Observable<boolean> | Promise<boolean> | boolean{
-        let isAuth = this._authService.isAuth();
-        console.log(isAuth);
+        let isAuth = this._authService.isAuth();     
         if(!isAuth) this._router.navigate(['/auth']);
         return isAuth;
     }
