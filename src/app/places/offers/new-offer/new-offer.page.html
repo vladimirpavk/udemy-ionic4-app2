@@ -9,10 +9,12 @@
 
 <ion-content>
   <ion-grid no-padding>
-    <ion-row>
+    <ion-row
+      fixed-md
+    >
       <ion-col
         size-xs="12"
-        size-sm="7"        
+        size-sm="7"              
       >Row 1 Col 1</ion-col>
       <ion-col
         offset-xs="8"
@@ -22,5 +24,31 @@
       >Row 1 Col 2</ion-col>
     </ion-row>
   </ion-grid>
-
+  <ion-grid no-padding>      
+          <ion-row class="ion-align-items-start">
+            <ion-col>
+              <div>
+                1 of 4
+              </div>
+            </ion-col>
+            <ion-col>
+              <div>
+                2 of 4
+              </div>
+            </ion-col>
+            <ion-col>
+              <div>
+                3 of 4
+              </div>
+            </ion-col>
+            <ion-col>
+              <div>
+                4 of 4 <br>
+                # <br>
+                # <br>
+                #
+              </div>
+            </ion-col>
+          </ion-row>
+  </ion-grid>
 </ion-content>
