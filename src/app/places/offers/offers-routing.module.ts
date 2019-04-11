@@ -7,7 +7,7 @@ const routes: Routes = [
     { path: '', component: OffersPage, pathMatch: 'full' },
     { path: 'offer-bookings/:id', loadChildren: './offer-bookings/offer-bookings.module#OfferBookingsPageModule' },
     { path: 'new-offer', loadChildren: './new-offer/new-offer.module#NewOfferPageModule' },
-    { path: 'edit-offer', loadChildren: './edit-offer/edit-offer.module#EditOfferPageModule' }
+    { path: 'edit-offer/:id', loadChildren: './edit-offer/edit-offer.module#EditOfferPageModule' }
   ];
 
 @NgModule({

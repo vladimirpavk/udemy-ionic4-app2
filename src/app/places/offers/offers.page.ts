@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { IonItemSliding } from '@ionic/angular';
+
 import { PlacesService } from '../places.service';
 import { Place } from '../place.model';
-import { Router } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-offers',
@@ -21,8 +25,10 @@ export class OffersPage implements OnInit {
       this._places = this._placesService.getPlaces();
   }
 
-  private trashIconClicked(place:Place):void{
-    console.log(place);
+  private editIconClicked(place:Place, itemSliding:IonItemSliding):void{
+    //console.log(place);
+    this._router.navigate(['/', 'places', 'tabs', 'offers', 'edit-offer', place.id]);    
+    itemSliding.close();
   }
 
   private itemClicked(place:Place):void{
