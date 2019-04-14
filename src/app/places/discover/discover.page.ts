@@ -23,4 +23,8 @@ export class DiscoverPage implements OnInit {
     this._randomIndex = rnd.index;
     this._favoritePlace = places[this._randomIndex];
   } 
+
+  private segmentChanged(event: CustomEvent){
+    //console.log(event.detail.value);
+  }
 }
