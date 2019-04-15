@@ -28,8 +28,9 @@ export class AuthPage implements OnInit {
     return loadingDialog.present();
   }
 
-  private onLoginClicked(){
-    
+  private onLoginClicked(form:any){
+    console.log(form);
+
     this.presentLoading();
 
     this._authService.login();
