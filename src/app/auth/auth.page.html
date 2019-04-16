@@ -1,27 +1,49 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Auth</ion-title>
+    <ion-title color="primary">Login / Signup</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
   <form #formRef="ngForm">
-    <ion-list>
-        <ion-item>
-          <ion-label position="floating">Email</ion-label>
-          <ion-input type="email" name="email" ngModel email required #emailRef="ngModel"></ion-input>                          
-        </ion-item>
-        <ion-item *ngIf="!emailRef.valid && emailRef.touched" lines="none">
-            <ion-label>Please enter valid email address...</ion-label>
-        </ion-item>
-        <ion-item>
-            <ion-label position="floating">Password</ion-label>
-            <ion-input type="password" name="password" ngModel minlength="3" maxlength="9" required #passRef="ngModel"></ion-input>                
-        </ion-item>
-        <ion-item *ngIf="!passRef.valid && passRef.touched" lines="none">
-            <ion-label>Please enter valid password...</ion-label>
-        </ion-item>
-    </ion-list>
-    <ion-button [disabled]="!formRef.valid" (click)="onLoginClicked(formRef)">LOGIN</ion-button>
+    <ion-grid no-padding fixed>      
+        <ion-row>
+          <ion-col>
+            <ion-item>
+                <ion-label color="primary" position="floating">Email</ion-label>
+                <ion-input type="email" name="email" ngModel email required #emailRef="ngModel"></ion-input>                          
+            </ion-item>
+            <ion-item *ngIf="!emailRef.valid && emailRef.touched" lines="none">
+                <ion-label color="danger">Please enter valid email address...</ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-label  color="primary" position="floating">Password</ion-label>
+                <ion-input type="password" name="password" ngModel minlength="3" maxlength="9" required #passRef="ngModel"></ion-input>                
+            </ion-item>
+            <ion-item *ngIf="!passRef.valid && passRef.touched" lines="none">
+                <ion-label color="danger">Please enter valid password...</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-around" class="ion-padding-top">
+          <ion-col
+            size-xs="12"
+            size-sm="4"
+            offset-lg="8"
+            size-lg="2"
+            no-padding           
+          >
+            <ion-button (click)="onLoginClicked(formRef)" expand="full">LOGIN</ion-button>              
+          </ion-col>         
+          <ion-col
+            size-xs="12"
+            size-sm="4"
+            size-lg="2"                                  
+            no-padding
+          >
+            <ion-button color="secondary" [disabled]="!formRef.valid" expand="full">SIGNUP</ion-button>
+          </ion-col>
+        </ion-row>
+    </ion-grid>        
   </form>  
 </ion-content>
