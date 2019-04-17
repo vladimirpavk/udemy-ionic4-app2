@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title color="primary">Login / Signup</ion-title>
+    <ion-title>Login / Signup</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -17,7 +17,7 @@
                 <ion-label color="danger">Please enter valid email address...</ion-label>
             </ion-item>
             <ion-item>
-                <ion-label  color="primary" position="floating">Password</ion-label>
+                <ion-label color="primary" position="floating">Password</ion-label>
                 <ion-input type="password" name="password" ngModel minlength="3" maxlength="9" required #passRef="ngModel"></ion-input>                
             </ion-item>
             <ion-item *ngIf="!passRef.valid && passRef.touched" lines="none">
@@ -25,7 +25,7 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row class="ion-justify-content-around" class="ion-padding-top">
+        <ion-row class="ion-justify-content-around ion-padding-top">
           <ion-col
             size-xs="12"
             size-sm="4"

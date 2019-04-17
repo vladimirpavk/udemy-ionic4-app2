@@ -9,46 +9,42 @@
 
 <ion-content>
   <ion-grid no-padding>
-    <ion-row
-      fixed-md
-    >
-      <ion-col
-        size-xs="12"
-        size-sm="7"              
-      >Row 1 Col 1</ion-col>
-      <ion-col
-        offset-xs="8"
-        size-xs="4"
-        offset-sm="1"
-        size-sm="4"
-      >Row 1 Col 2</ion-col>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label color="primary" position="floating">Title</ion-label>
+          <ion-input type="text" minlength="2" maxlength="32"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" position="floating">Description</ion-label>
+          <ion-textarea
+            placeholder="Enter place description here..."
+            rows="3" cols="60">
+          </ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" position="floating">Picture</ion-label>
+          <ion-input type="text" minlength="10"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" position="floating">Price</ion-label>
+          <ion-input type="number"></ion-input>
+        </ion-item>
+      </ion-col>
     </ion-row>
-  </ion-grid>
-  <ion-grid no-padding>      
-          <ion-row class="ion-align-items-start">
-            <ion-col>
-              <div>
-                1 of 4
-              </div>
-            </ion-col>
-            <ion-col>
-              <div>
-                2 of 4
-              </div>
-            </ion-col>
-            <ion-col>
-              <div>
-                3 of 4
-              </div>
-            </ion-col>
-            <ion-col>
-              <div>
-                4 of 4 <br>
-                # <br>
-                # <br>
-                #
-              </div>
-            </ion-col>
-          </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label color="primary" position="floating">Available from</ion-label>
+          <ion-datetime min="2019-01-02" max="2025-12-31"></ion-datetime>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+            <ion-label color="primary" position="floating">Available to</ion-label>
+            <ion-datetime min="2019-01-02" max="2025-12-31"></ion-datetime>
+        </ion-item>
+      </ion-col>
+    </ion-row>
   </ion-grid>
 </ion-content>

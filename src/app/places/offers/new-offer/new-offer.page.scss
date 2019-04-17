@@ -1,4 +1,4 @@
-ion-col{
+/* ion-col{
     border: 1px solid red;
 }
 
@@ -12,4 +12,10 @@ ion-grid{
 
 ion-row{
     border:1px solid purple;
+} */
+
+ion-textarea{
+    border: red 1px solid;
+    border-radius: 3px;
+    --placeholder-color: red;
 }
