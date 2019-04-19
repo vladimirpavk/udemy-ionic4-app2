@@ -4,47 +4,61 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/places/tabs/offers"></ion-back-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button type="submit" (click)="formSubmitted()">
+        <ion-icon slot="icon-only" name="checkmark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-grid no-padding>
-    <ion-row>
-      <ion-col>
-        <ion-item>
-          <ion-label color="primary" position="floating">Title</ion-label>
-          <ion-input type="text" minlength="2" maxlength="32"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label color="primary" position="floating">Description</ion-label>
-          <ion-textarea
-            placeholder="Enter place description here..."
-            rows="3" cols="60">
-          </ion-textarea>
-        </ion-item>
-        <ion-item>
-          <ion-label color="primary" position="floating">Picture</ion-label>
-          <ion-input type="text" minlength="10"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label color="primary" position="floating">Price</ion-label>
-          <ion-input type="number"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-item>
-          <ion-label color="primary" position="floating">Available from</ion-label>
-          <ion-datetime min="2019-01-02" max="2025-12-31"></ion-datetime>
-        </ion-item>
-      </ion-col>
-      <ion-col>
-        <ion-item>
-            <ion-label color="primary" position="floating">Available to</ion-label>
-            <ion-datetime min="2019-01-02" max="2025-12-31"></ion-datetime>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <form [formGroup]="_offerForm">
+    <ion-grid no-padding>
+
+      <fieldset formGroupName="place">
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label color="primary" position="floating">Title</ion-label>
+              <ion-input type="text" formControlName="title"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label color="primary" position="floating">Description</ion-label>
+              <ion-textarea
+                placeholder="Enter place description here..."
+                rows="3" cols="60" formControlName="description">
+              </ion-textarea>
+            </ion-item>
+            <ion-item>
+              <ion-label color="primary" position="floating">Picture</ion-label>
+              <ion-input type="text" #pictureInput  debounce="300" formControlName="imageUrl"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="pictureInput.value" padding>
+              <ion-img [src]="pictureInput.value"></ion-img>
+            </ion-item>
+            <ion-item>
+              <ion-label color="primary" position="floating">Price</ion-label>
+              <ion-input type="number" formControlName="price"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </fieldset>
+      
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label color="primary" position="floating">Available from</ion-label>
+            <ion-datetime min="2019-01-02" max="2025-12-31" formControlName="startDate"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+              <ion-label color="primary" position="floating">Available to</ion-label>
+              <ion-datetime min="2019-01-02" max="2025-12-31" formControlName="endDate"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
 </ion-content>

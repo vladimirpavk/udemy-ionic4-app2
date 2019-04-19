@@ -1,21 +1,10 @@
-/* ion-col{
-    border: 1px solid red;
-}
-
-ion-content{
-    border:1px solid green;
-}
-
-ion-grid{
-    border:1px solid blue;
-}
-
-ion-row{
-    border:1px solid purple;
-} */
-
 ion-textarea{
-    border: red 1px solid;
+    border: var(--ion-color-secondary) 1px solid;
     border-radius: 3px;
-    --placeholder-color: red;
+    --placeholder-color: black;    
+    font-size: small;
+}
+
+fieldset{
+    border:none;
 }
