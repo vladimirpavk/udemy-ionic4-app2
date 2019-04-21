@@ -12,17 +12,25 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fixed>
   <form [formGroup]="_offerForm">
     <ion-grid no-padding>
 
       <fieldset formGroupName="place">
         <ion-row>
           <ion-col>
+
             <ion-item>
               <ion-label color="primary" position="floating">Title</ion-label>
-              <ion-input type="text" formControlName="title"></ion-input>
+              <ion-input type="text" formControlName="title"></ion-input>             
             </ion-item>
+
+            <ion-item *ngIf="!this._titleValid">
+              <ion-label color="danger">               
+                <p>Must be more than 3 characters long and less than 60 characters long.</p>
+              </ion-label>
+            </ion-item>
+            
             <ion-item>
               <ion-label color="primary" position="floating">Description</ion-label>
               <ion-textarea
@@ -30,17 +38,21 @@
                 rows="3" cols="60" formControlName="description">
               </ion-textarea>
             </ion-item>
+
             <ion-item>
               <ion-label color="primary" position="floating">Picture</ion-label>
               <ion-input type="text" #pictureInput  debounce="300" formControlName="imageUrl"></ion-input>
             </ion-item>
+
             <ion-item *ngIf="pictureInput.value" padding>
               <ion-img [src]="pictureInput.value"></ion-img>
             </ion-item>
+
             <ion-item>
               <ion-label color="primary" position="floating">Price</ion-label>
               <ion-input type="number" formControlName="price"></ion-input>
             </ion-item>
+
           </ion-col>
         </ion-row>
       </fieldset>
