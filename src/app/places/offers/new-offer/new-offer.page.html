@@ -25,7 +25,7 @@
               <ion-input type="text" formControlName="title"></ion-input>             
             </ion-item>
 
-            <ion-item *ngIf="!this._titleValid">
+            <ion-item *ngIf="this._didValidate && !this._validationResult['place.title']">
               <ion-label color="danger">               
                 <p>Must be more than 3 characters long and less than 60 characters long.</p>
               </ion-label>
@@ -39,9 +39,21 @@
               </ion-textarea>
             </ion-item>
 
+            <ion-item *ngIf="this._didValidate && !this._validationResult['place.description']">
+              <ion-label color="danger">
+                <p>Must be more than 3 characters long and less than 60 characters long.</p>
+              </ion-label>
+            </ion-item>
+
             <ion-item>
               <ion-label color="primary" position="floating">Picture</ion-label>
               <ion-input type="text" #pictureInput  debounce="300" formControlName="imageUrl"></ion-input>
+            </ion-item>
+
+            <ion-item *ngIf="this._didValidate && !this._validationResult['place.imageUrl']">
+                <ion-label color="danger">
+                  <p>Field is required</p>
+                </ion-label>
             </ion-item>
 
             <ion-item *ngIf="pictureInput.value" padding>
@@ -51,6 +63,12 @@
             <ion-item>
               <ion-label color="primary" position="floating">Price</ion-label>
               <ion-input type="number" formControlName="price"></ion-input>
+            </ion-item>
+
+            <ion-item *ngIf="this._didValidate && !this._validationResult['place.price']">
+                <ion-label color="danger">
+                  <p>Value must be greater than 1</p>
+                </ion-label>
             </ion-item>
 
           </ion-col>
@@ -63,11 +81,24 @@
             <ion-label color="primary" position="floating">Available from</ion-label>
             <ion-datetime min="2019-01-02" max="2025-12-31" formControlName="startDate"></ion-datetime>
           </ion-item>
+
+          <ion-item *ngIf="this._didValidate && !this._validationResult['startDate']">
+              <ion-label color="danger">
+                <p>Field is required</p>
+              </ion-label>
+          </ion-item>
+
         </ion-col>
         <ion-col>
           <ion-item>
               <ion-label color="primary" position="floating">Available to</ion-label>
               <ion-datetime min="2019-01-02" max="2025-12-31" formControlName="endDate"></ion-datetime>
+          </ion-item>
+
+          <ion-item *ngIf="this._didValidate && !this._validationResult['endDate']">
+              <ion-label color="danger">
+                <p>Field is required</p>
+              </ion-label>
           </ion-item>
         </ion-col>
       </ion-row>

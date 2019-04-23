@@ -1,4 +1,7 @@
-export class CommonModule{  
+import { FormGroup, FormControl } from '@angular/forms';
+
+export class Common{  
+
     public static randomize<T>(input:T[]):{index: number, output: T[]}{   
         const min = 0;
         const max = input.length-1;
@@ -12,4 +15,17 @@ export class CommonModule{
           output: newArray
         }  
     }
+
+    public static validateForm(result:{ [key:string]:boolean }, prefix:string, form:FormGroup){   
+        Object.keys(form.controls).forEach(
+          (key:string)=>{
+            if(form.controls[key] instanceof FormControl){
+              result[prefix+key]=form.controls[key].valid;
+            }
+            else{
+              this.validateForm(result, key+'.', <FormGroup>form.controls[key]);
+            }
+          }
+        );
+      }
 }

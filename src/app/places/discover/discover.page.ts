@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PlacesService } from '../places.service';
 import { Place } from '../place.model';
-import { CommonModule } from '../../common/common';
+import { Common } from '../../common/common';
 
 @Component({
   selector: 'app-discover',
@@ -18,7 +18,7 @@ export class DiscoverPage implements OnInit {
 
   ngOnInit() {
     let places = this._placesService.getPlaces();
-    const rnd = CommonModule.randomize(places)    
+    const rnd = Common.randomize(places)    
     this._places = rnd.output;
     this._randomIndex = rnd.index;
     this._favoritePlace = places[this._randomIndex];
