@@ -1,0 +1,10 @@
+ion-textarea{
+    border: var(--ion-color-secondary) 1px solid;
+    border-radius: 3px;
+    --placeholder-color: black;    
+    font-size: small;
+}
+
+fieldset{
+    border:none;
+}

@@ -51,4 +51,25 @@ export class PlacesService {
     return [...this._places];
   }
 
+  public findById(id:string):Place{
+    let placeFound = null;
+    this._places.forEach(
+      (place:Place)=>{
+        if(place.id === id)
+        {          
+          placeFound = place;
+        }        
+      }
+    );
+    return placeFound;
+  }
+
+  public findByPlace(place:Place):number{
+    return this._places.indexOf(place);
+  }
+
+  public replace(oldPlace:Place, newPlace:Place){
+    this._places.splice(this._places.indexOf(oldPlace), 1, newPlace);
+    console.log(this._places);
+  }
 }
