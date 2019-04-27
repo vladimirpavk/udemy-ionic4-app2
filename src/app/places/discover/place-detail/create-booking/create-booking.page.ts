@@ -17,9 +17,13 @@ export class CreateBookingPage implements OnInit {
   ngOnInit() {
   }
 
-  private onBookClicked(){
+  private closeButtonClicked(){
     this._modalController.dismiss({
       data: 'any Data'     
     });
+  }
+  
+  private formSubmitted(f:any){ 
+    console.log(f);
   }
 }

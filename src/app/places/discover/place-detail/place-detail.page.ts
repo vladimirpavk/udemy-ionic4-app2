@@ -46,10 +46,14 @@ export class PlaceDetailPage implements OnInit {
         id: 'actionSheet1',
         header: 'Book property '+this._id,
         buttons: [{
-          text: 'Play (open modal)',
+          text: 'Book',
           icon: 'arrow-dropright-circle',
-          handler: () => {
-            console.log('Play clicked');
+          handler: () => {            
+            this.CreateBookingModal().then(
+              (data:any)=>{
+                console.log('Booking modal presented...');
+              }
+            )
           }
         }, {
           text: 'Cancel',
