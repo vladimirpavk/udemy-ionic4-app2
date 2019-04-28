@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>Make booking {{ value }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="closeButtonClicked()">
+      <ion-button (click)="closeButtonClicked('dismissed')">
         <ion-icon slot="icon-only" name="close"></ion-icon>
       </ion-button>
     </ion-buttons>    
@@ -47,6 +47,8 @@
             <ion-datetime
               display-format="MMM DD YYYY"
               picker-format="YY MMM DD"
+              [min]="place.availableFrom.toISOString()"
+              [max]="place.availableTo.toISOString()"
               name="fromDate"
               ngModel
               required
@@ -61,19 +63,24 @@
                 display-format="MMM DD YYYY"
                 picker-format="YY MMM DD"
                 [min]="fromDate.value"
+                [max]="place.availableTo.toISOString()"
                 name="toDate"
                 ngModel
                 required
                 #toDate="ngModel"
                 ></ion-datetime>
             </ion-item>
-          </ion-col>
+          </ion-col>          
       </ion-row>
       <ion-row>
-        <ion-col>
-          <ion-button type="submit" expand="block">Book</ion-button>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-button
+            type="submit"
+            expand="block"
+            [disabled]="!f.valid"           
+          >Book</ion-button>
         </ion-col>
-      </ion-row>
+      </ion-row>      
     </ion-grid>
   </form>
 </ion-content>

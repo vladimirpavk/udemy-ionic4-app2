@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { CreateBookingPage } from './create-booking/create-booking.page';
 import { OverlayEventDetail } from '@ionic/core';
+import { PlacesService } from '../../places.service';
+import { Place } from '../../place.model';
 
 @Component({
   selector: 'app-place-detail',
@@ -12,12 +14,14 @@ import { OverlayEventDetail } from '@ionic/core';
 export class PlaceDetailPage implements OnInit {
 
   private _id:string;
+  private _selectedPlace:Place;
 
   constructor(
     private _router:Router,
     private route:ActivatedRoute,
     private _modalController:ModalController,
-    private _actionSheetCtrl:ActionSheetController
+    private _actionSheetCtrl:ActionSheetController,
+    private _placeService:PlacesService
   ) { }
 
   ngOnInit() {
@@ -25,6 +29,7 @@ export class PlaceDetailPage implements OnInit {
       (paramMap)=>{
         //console.log(paramMap.get('id'));
         this._id = paramMap.get('id')
+        this._selectedPlace = this._placeService.findById(this._id);
       }
     );  
   }
@@ -33,7 +38,7 @@ export class PlaceDetailPage implements OnInit {
     const modalDialog:HTMLIonModalElement = await this._modalController.create({
       component: CreateBookingPage,
       componentProps:{
-        value: 123
+        place: this._selectedPlace
       }
     });
     modalDialog.present();
@@ -51,7 +56,14 @@ export class PlaceDetailPage implements OnInit {
           handler: () => {            
             this.CreateBookingModal().then(
               (data:any)=>{
-                console.log('Booking modal presented...');
+                if(data.data['booking'].status == 'dismissed')
+                {
+                  console.log('BOOKING DISMISSED');
+                }
+                else{
+                  console.log('BOOKED');
+                  console.log(data.data['booking']);
+                }
               }
             )
           }
@@ -78,7 +90,7 @@ export class PlaceDetailPage implements OnInit {
     );*/
     this.CreateActionSheet().then(
       ()=>{
-        console.log('Action sheet presented...');
+        //console.log('Action sheet presented...');
       }
     )
   }
