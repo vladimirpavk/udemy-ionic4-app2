@@ -47,7 +47,10 @@ export class EditOfferPage implements OnInit {
         this._offersForm.value['title'],
         this._offersForm.value['description'],
         this._place.imageUrl,
-        this._place.price
+        this._place.price,
+        this._place.availableFrom,
+        this._place.availableTo,
+        this._place.userId
       );      
       this._placesService.replace(this._place, newPlace);
     }

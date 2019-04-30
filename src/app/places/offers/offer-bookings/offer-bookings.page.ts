@@ -12,7 +12,7 @@ export class OfferBookingsPage implements OnInit {
 
   ngOnInit() {
     this._activatedRoute.paramMap.subscribe((paramMap:ParamMap)=>{
-      console.log(paramMap.get('id'));
+      console.log('ParamMap', paramMap.get('id'));
     })
   }
 
