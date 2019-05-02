@@ -1,10 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonMenu } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { IonMenu, Platform, MenuController } from '@ionic/angular';
 
-import { Platform, MenuController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { Router } from '@angular/router';
+
+import * as firebase from 'firebase/app';
+
+import * as Config from './common/config';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +24,12 @@ export class AppComponent {
     private _router: Router,
     private _menuCtrl: MenuController
   ) {
+    let config = new Config.ConfigClass();    
     this.initializeApp();
+
+    firebase.initializeApp(
+      config.firebaseConfig
+    );
   }
 
   initializeApp() {

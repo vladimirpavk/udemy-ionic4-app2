@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { UiService } from '../common/ui.service';
 
+import * as fireAuth from 'firebase';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -31,6 +33,16 @@ export class AuthService {
 
   public logout(){
     this._isAuthenticated = false;
+  }
+
+  public signUp(email:string, password:string){
+    fireAuth.auth().createUserWithEmailAndPassword(
+      email, password
+    ).then(
+      (response)=>{
+        console.log(response);
+      }
+    )
   }
 
 }

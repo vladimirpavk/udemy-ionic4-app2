@@ -3,6 +3,7 @@ import { Place } from './place.model';
 import { AuthService } from '../auth/auth.service';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,10 @@ export class PlacesService {
   private _places:Place[] = [];
   public places$:BehaviorSubject<Place[]>;
 
-  constructor(private _authService:AuthService) {
+  constructor(
+    private _authService:AuthService,
+    private _httpClient:HttpClient
+  ) {
     this._places = [
       new Place(
         'id1',
@@ -64,6 +68,14 @@ export class PlacesService {
       new Date('2019-12-31'),
       'abc'
     )];   
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+
+    this._httpClient.put<Place[]>('https://ionic4-udemy.firebaseio.com/places.json', this._places, httpOptions)
+      .subscribe((response)=>console.log('from http response', response));
 
     this.places$ = new BehaviorSubject<Place[]>(this._places);
   }

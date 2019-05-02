@@ -41,7 +41,12 @@
             size-lg="2"                                  
             no-padding
           >
-            <ion-button color="secondary" [disabled]="!formRef.valid" expand="full">SIGNUP</ion-button>
+            <ion-button
+              color="secondary"
+              [disabled]="!formRef.valid"
+              expand="full"
+              (click)="onSignupClicked(formRef)"
+            >SIGNUP</ion-button>
           </ion-col>
         </ion-row>
     </ion-grid>        

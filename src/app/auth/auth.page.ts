@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { UiService } from '../common/ui.service';
 import { Subscription } from 'rxjs';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-auth',
@@ -50,6 +51,10 @@ export class AuthPage implements OnInit {
 
   private onLoginClicked(form:any){
     this._authService.login();
+  }
+
+  private onSignupClicked(form:NgForm){
+    this._authService.signUp(form.value['email'], form.value['password']);
   }
 
 }

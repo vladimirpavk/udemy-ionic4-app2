@@ -6,11 +6,14 @@ import { PlacesPage } from './places.page';
 import { PlacesRoutingModule } from './places-routing.module';
 import { PlacesService } from './places.service';
 
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   imports: [
     CommonModule,
     IonicModule,
-    PlacesRoutingModule
+    PlacesRoutingModule,
+    HttpClientModule
   ],
   declarations: [PlacesPage],
   providers: [PlacesService]
