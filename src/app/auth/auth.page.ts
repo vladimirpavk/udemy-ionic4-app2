@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './auth.service';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
+
+import { AuthService } from './auth.service';
 import { UiService } from '../common/ui.service';
+
 import { Subscription } from 'rxjs';
-import { NgForm } from '@angular/forms';
+
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
 
 @Component({
   selector: 'app-auth',
@@ -49,12 +54,32 @@ export class AuthPage implements OnInit {
     return loadingDialog.present();
   }
 
-  private onLoginClicked(form:any){
-    this._authService.login();
+  private onLoginClicked(form:NgForm){
+    this._authService.login(form.value['email'], form.value['password'])
+    .then(
+      (firebaseCredentials:firebase.auth.UserCredential)=>{
+        console.log(this._authService.tokenId);
+      }
+    )
+    .catch(
+      (error:void)=>{
+        console.log(error['message']);
+      }
+    )
   }
 
   private onSignupClicked(form:NgForm){
-    this._authService.signUp(form.value['email'], form.value['password']);
+    this._authService.signUp(form.value['email'], form.value['password'])
+      .then(
+        (firebaseCredentials:firebase.auth.UserCredential)=>{
+          console.log(this._authService.tokenId);
+        }
+      )
+      .catch(
+        (error:void)=>{
+          console.log(error['message']);
+        }
+      )
   }
 
 }
