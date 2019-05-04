@@ -3,69 +3,59 @@ import { UiService } from '../common/ui.service';
 
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private _isAuthenticated:boolean = false;
   private _tokenId:string = '';
-  get tokenId(){
+  public get tokenId(){
     return this._tokenId;
   }
 
-  private _userId = 'abc';
-  get userId():string{
+  private _userId:string = '';
+  public get userId():string{
     return this._userId;
-  }  
+  }
 
-  constructor(
-    private _uiService:UiService
-  ) { 
+  public authChanged:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
+
+  constructor() { 
     firebase.auth().onAuthStateChanged(
       (user)=>{
         if(user){
-          //user logged in
-          console.log('user logged in');
+          //user logged in          
           firebase.auth().currentUser.getIdToken()
             .then(
-              (token:string)=>{
-                this._isAuthenticated = true;
-                this._tokenId=token;
+              (token:string)=>{                
+                this._tokenId = token;
+                this._userId = firebase.auth().currentUser.uid;            
+                this.authChanged.next(true);
               }
-            )
+            );            
         }
         else{
-          //user logged out
-          this._isAuthenticated = false;
+          //user logged out          
           this._tokenId = '';
+          this._userId = '';
+          this.authChanged.next(false);
         }
       }
     )
   }
   
-  public isAuth():boolean{   
-    return this._isAuthenticated;
-  }
-
-  public login(email:string, password:string):Promise<firebase.auth.UserCredential>{
-    /*this._uiService.startSpinning();
-    setTimeout(()=>{
-      this._isAuthenticated = true;
-      this._uiService.stopSpinning();
-    }, 500);*/
+  public login(email:string, password:string):Promise<firebase.auth.UserCredential>{   
     return firebase.auth().signInWithEmailAndPassword(email, password);    
   }
 
-  public logout(){
-    this._isAuthenticated = false;
+  public logout():Promise<void>{
+    return firebase.auth().signOut();
   }
 
   public signUp(email:string, password:string):Promise<firebase.auth.UserCredential>{
-    return firebase.auth().createUserWithEmailAndPassword(
-      email, password
-    );
+    return firebase.auth().createUserWithEmailAndPassword(email, password);    
   }
 
 }

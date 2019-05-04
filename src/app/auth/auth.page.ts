@@ -29,7 +29,7 @@ export class AuthPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this._subs = this._uiService.isSpinning.subscribe(
+    /*this._subs = this._uiService.isSpinning.subscribe(
       (spinning:boolean)=>{
         if(spinning){
           this.presentLoading();
@@ -40,6 +40,14 @@ export class AuthPage implements OnInit {
             this._loadingCtrl.dismiss('firstOne');
             this._router.navigate(['/', 'places']);
           }
+        }
+      }
+    )*/
+    this._authService.authChanged.subscribe(
+      (newAuth:boolean)=>{
+        if(newAuth){         
+          console.log(this._authService.userId, this._authService.tokenId);
+          this._router.navigate(['/', 'places']);
         }
       }
     )
@@ -56,30 +64,30 @@ export class AuthPage implements OnInit {
 
   private onLoginClicked(form:NgForm){
     this._authService.login(form.value['email'], form.value['password'])
-    .then(
-      (firebaseCredentials:firebase.auth.UserCredential)=>{
-        console.log(this._authService.tokenId);
-      }
-    )
-    .catch(
-      (error:void)=>{
-        console.log(error['message']);
-      }
-    )
-  }
-
-  private onSignupClicked(form:NgForm){
-    this._authService.signUp(form.value['email'], form.value['password'])
       .then(
-        (firebaseCredentials:firebase.auth.UserCredential)=>{
-          console.log(this._authService.tokenId);
+        (user:firebase.auth.UserCredential)=>{
+          console.log(user);
         }
       )
       .catch(
         (error:void)=>{
           console.log(error['message']);
         }
-      )
+      );
+}
+
+  private onSignupClicked(form:NgForm){
+    this._authService.signUp(form.value['email'], form.value['password'])
+    .then(
+      (user:firebase.auth.UserCredential)=>{
+        console.log(user);
+      }
+    )
+    .catch(
+      (error:void)=>{
+        console.log(error['message']);
+      }
+    );
   }
 
 }
