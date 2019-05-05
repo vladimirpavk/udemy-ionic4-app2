@@ -7,7 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import * as firebase from 'firebase/app';
 
-import * as Config from './common/config';
+import { ConfigClass } from './common/config';
 
 @Component({
   selector: 'app-root',
@@ -23,12 +23,11 @@ export class AppComponent {
     private statusBar: StatusBar,
     private _router: Router,
     private _menuCtrl: MenuController
-  ) {
-    let config = new Config.ConfigClass();    
+  ) {      
     this.initializeApp();
 
     firebase.initializeApp(
-      config.firebaseConfig
+      ConfigClass.firebaseConfig()
     );
   }
 

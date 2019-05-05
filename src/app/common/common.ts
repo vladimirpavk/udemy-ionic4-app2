@@ -17,15 +17,15 @@ export class Common{
     }
 
     public static validateForm(result:{ [key:string]:boolean }, prefix:string, form:FormGroup){   
-        Object.keys(form.controls).forEach(
-          (key:string)=>{
-            if(form.controls[key] instanceof FormControl){
-              result[prefix+key]=form.controls[key].valid;
-            }
-            else{
-              this.validateForm(result, key+'.', <FormGroup>form.controls[key]);
-            }
+      Object.keys(form.controls).forEach(
+        (key:string)=>{
+          if(form.controls[key] instanceof FormControl){
+            result[prefix+key]=form.controls[key].valid;
           }
-        );
-      }
+          else{
+            this.validateForm(result, key+'.', <FormGroup>form.controls[key]);
+          }
+        }
+      );
+    }        
 }
