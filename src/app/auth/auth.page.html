@@ -25,15 +25,25 @@
             </ion-item>
           </ion-col>
         </ion-row>
+        <ion-row *ngIf="_hasErrors">
+          <ion-col>
+            <ion-item lines="none" text-wrap>
+              <ion-label color="danger">{{ _errorMessage }}</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
         <ion-row class="ion-justify-content-around ion-padding-top">
           <ion-col
             size-xs="12"
             size-sm="4"
             offset-lg="8"
             size-lg="2"
-            no-padding           
-          >
-            <ion-button (click)="onLoginClicked(formRef)" expand="full">LOGIN</ion-button>              
+            no-padding>
+            <ion-button
+              (click)="onLoginClicked(formRef)"
+              expand="full"
+              [disabled]="!formRef.valid"
+            >LOGIN</ion-button>              
           </ion-col>         
           <ion-col
             size-xs="12"

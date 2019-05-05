@@ -20,27 +20,18 @@ export class AuthService {
     return this._userId;
   }
 
-  public authChanged:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
-
   constructor() { 
     firebase.auth().onAuthStateChanged(
-      (user)=>{
+      (user:firebase.User)=>{
         if(user){
-          //user logged in          
-          firebase.auth().currentUser.getIdToken()
-            .then(
-              (token:string)=>{                
-                this._tokenId = token;
-                this._userId = firebase.auth().currentUser.uid;            
-                this.authChanged.next(true);
-              }
-            );            
+          //user logged in                         
+          this._tokenId = user['ra'];
+          this._userId = user['uid'];
         }
         else{
           //user logged out          
           this._tokenId = '';
-          this._userId = '';
-          this.authChanged.next(false);
+          this._userId = '';          
         }
       }
     )

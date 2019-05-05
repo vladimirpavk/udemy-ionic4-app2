@@ -18,8 +18,8 @@ import 'firebase/auth';
 })
 export class AuthPage implements OnInit {
 
-  private _subs:Subscription;
-  private _isShown:boolean = false;
+  private _hasErrors:boolean = false;
+  private _errorMessage:string = '';
 
   constructor(
     private _authService:AuthService,
@@ -29,63 +29,49 @@ export class AuthPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    /*this._subs = this._uiService.isSpinning.subscribe(
-      (spinning:boolean)=>{
-        if(spinning){
-          this.presentLoading();
-          this._isShown = true;
-        }
-        else{
-          if(this._isShown){
-            this._loadingCtrl.dismiss('firstOne');
-            this._router.navigate(['/', 'places']);
-          }
-        }
-      }
-    )*/
-    this._authService.authChanged.subscribe(
-      (newAuth:boolean)=>{
-        if(newAuth){         
-          console.log(this._authService.userId, this._authService.tokenId);
-          this._router.navigate(['/', 'places']);
-        }
-      }
-    )
   }
 
-  private async presentLoading():Promise<void>{
+  private async presentLoading(id:string, message:string):Promise<void>{
     const loadingDialog:HTMLIonLoadingElement=await this._loadingCtrl.create({
-      id:'firstOne',
-      message:'Please wait',
+      id: id,
+      message: message,
       spinner:'crescent'
     });
     return loadingDialog.present();
   }
 
   private onLoginClicked(form:NgForm){
+    this.presentLoading('logging', 'Logging in');
     this._authService.login(form.value['email'], form.value['password'])
       .then(
         (user:firebase.auth.UserCredential)=>{
-          console.log(user);
+          this._loadingCtrl.dismiss('logging');    
+          this._router.navigate(['/', 'places']);
         }
       )
       .catch(
         (error:void)=>{
-          console.log(error['message']);
+          this._loadingCtrl.dismiss('logging');
+          this._hasErrors = true;
+          this._errorMessage = error['message'];         
         }
       );
 }
 
   private onSignupClicked(form:NgForm){
+    this.presentLoading('signin', 'Singing in');
     this._authService.signUp(form.value['email'], form.value['password'])
     .then(
       (user:firebase.auth.UserCredential)=>{
-        console.log(user);
+        this._loadingCtrl.dismiss('signin');
+        this._router.navigate(['/', 'places']);
       }
     )
     .catch(
       (error:void)=>{
-        console.log(error['message']);
+        this._loadingCtrl.dismiss('signin');
+        this._hasErrors = true;
+        this._errorMessage = error['message'];  
       }
     );
   }
