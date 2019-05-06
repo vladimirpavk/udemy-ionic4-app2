@@ -19,14 +19,15 @@ export class DiscoverPage implements OnInit, OnDestroy {
   constructor(private _placesService:PlacesService) { }
 
   ngOnInit() {
-    this.subs1 = this._placesService.places.subscribe(
+    /*this.subs1 = this._placesService.places$.subscribe(
       (places:Place[])=>{
         const rnd = Common.randomize(places)    
         this._places = rnd.output;
         this._randomIndex = rnd.index;
         this._favoritePlace = places[this._randomIndex];
       }
-    )        
+    ) */       
+    this._placesService.getPlaces();
   } 
 
   ngOnDestroy(){
