@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Place } from './place.model';
 import { AuthService } from '../auth/auth.service';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { take, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -25,50 +25,46 @@ export class PlacesService {
     private _httpClient:HttpClient
   ) { }  
 
-  public getPlaces(){
-/*     return this._httpClient.get<Place[]>('https://ionic4-udemy.firebaseio.com/places.json' + '?auth=' + this._authService.tokenId)
+  public places$:BehaviorSubject<Place[]>=new BehaviorSubject<Place[]>([]);
+
+  public getPlaces():Observable<Place[]>{
+    return this._httpClient.get<{[name:string]:PlaceData}>('https://ionic4-udemy.firebaseio.com/places.json' + '?auth=' + this._authService.tokenId)
       .pipe(
         map(
-        (place)=>{
-          console.log(place);
-        }
-      )); */
-      this._httpClient.get<{[name:string]:PlaceData}>('https://ionic4-udemy.firebaseio.com/places.json' + '?auth=' + this._authService.tokenId)
-        .pipe(
-          map(
-            (resData:{[name:string]:PlaceData})=>{
-              
-              let places:Place[] = [];
+          (resData:{[name:string]:PlaceData})=>{
+            
+            let places:Place[] = [];
 
-              Object.keys(resData).forEach(
-                (key:string)=>{
-                  //console.log(key, resData[key]);
-                  places.push(
-                    new Place(
-                      key,
-                      resData[key].title,
-                      resData[key].description,
-                      resData[key].imageUrl,
-                      resData[key].price,
-                      new Date(resData[key].availableFrom),
-                      new Date(resData[key].availableTo),
-                      resData[key].userId                      
-                    )
-                  );
-                }
-              );
-              //console.log(places);
-              return places;
-            }
-          )
-        ).subscribe(
-          (data:Place[])=>{
-            console.log('Subscribe :', data);
+            Object.keys(resData).forEach(
+              (key:string)=>{
+                //console.log(key, resData[key]);
+                places.push(
+                  new Place(
+                    key,
+                    resData[key].title,
+                    resData[key].description,
+                    resData[key].imageUrl,
+                    resData[key].price,
+                    new Date(resData[key].availableFrom),
+                    new Date(resData[key].availableTo),
+                    resData[key].userId                      
+                  )
+                );
+              }
+            );
+            //console.log(places);
+            return places;
+          }
+        ),
+        tap(
+          (places:Place[])=>{
+            this.places$.next(places);
           }
         )
+      )
   }
 
-}
+} 
   
   /* public places$:Observable<Place[]>=new Observable<Place[]>();
 

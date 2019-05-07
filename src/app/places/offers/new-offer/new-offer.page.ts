@@ -41,7 +41,7 @@ export class NewOfferPage implements OnInit {
     this._didValidate = true;
     if( this._offerForm.valid ){
       //submit the form
-        this._placesService.addPlace(
+        /*this._placesService.addPlace(
         new Place(
           '',
           this._offerForm.value['place']['title'],
@@ -52,7 +52,7 @@ export class NewOfferPage implements OnInit {
           this._offerForm.value['endDate'],
           this._authService.userId
         )
-      );
+        );*/
       this._router.navigate(['/', 'places', 'tabs', 'offers']);
     }
   }

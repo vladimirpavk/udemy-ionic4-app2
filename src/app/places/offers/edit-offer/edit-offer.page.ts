@@ -26,7 +26,7 @@ export class EditOfferPage implements OnInit {
   ngOnInit() {
     this._activatedRoute.paramMap.subscribe(
       (paramMap:ParamMap)=>{
-        this._place = this._placesService.findById(paramMap.get('id'));
+        //this._place = this._placesService.findById(paramMap.get('id'));
 
         this._offersForm = new FormGroup({
           title: new FormControl(this._place.title, [Validators.required, Validators.minLength(3), Validators.maxLength(60)]),
@@ -52,7 +52,7 @@ export class EditOfferPage implements OnInit {
         this._place.availableTo,
         this._place.userId
       );      
-      this._placesService.replace(this._place, newPlace);
+      //this._placesService.replace(this._place, newPlace);
     }
   }
 }

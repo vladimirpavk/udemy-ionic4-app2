@@ -29,7 +29,7 @@ export class PlaceDetailPage implements OnInit {
       (paramMap)=>{
         //console.log(paramMap.get('id'));
         this._id = paramMap.get('id')
-        this._selectedPlace = this._placeService.findById(this._id);
+        //this._selectedPlace = this._placeService.findById(this._id);
       }
     );  
   }
