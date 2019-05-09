@@ -4,6 +4,7 @@ import { AuthService } from '../auth/auth.service';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { take, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Common } from '../common/common';
 
 interface PlaceData{
   availableFrom: string,
@@ -25,9 +26,7 @@ export class PlacesService {
     private _httpClient:HttpClient
   ) { }  
 
-  public places$:BehaviorSubject<Place[]>=new BehaviorSubject<Place[]>([]);
-
-  public getPlaces():Observable<Place[]>{
+  public get places():Observable<{favoritePlace:Place, otherPlaces:Place[]}>{
     return this._httpClient.get<{[name:string]:PlaceData}>('https://ionic4-udemy.firebaseio.com/places.json' + '?auth=' + this._authService.tokenId)
       .pipe(
         map(
@@ -52,16 +51,24 @@ export class PlacesService {
                 );
               }
             );
-            //console.log(places);
-            return places;
-          }
-        ),
-        tap(
-          (places:Place[])=>{
-            this.places$.next(places);
+            //ovde imaš Place[] sa podacima
+            const rnd = Common.randomize(places)    
+            let rndPlaces:Place[] = rnd.output;
+            let rndIndex:number = rnd.index;
+            let rndFavoritePlace:Place = places[rndIndex];
+
+            const result = 
+              {
+                favoritePlace:rndFavoritePlace,
+                otherPlaces:rndPlaces
+              };
+            
+            console.log(result);
+
+            return result;
           }
         )
-      )
+      );        
   }
 
 } 

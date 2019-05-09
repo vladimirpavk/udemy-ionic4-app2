@@ -29,6 +29,25 @@ export class AuthPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    
+  }
+
+  ionViewDidEnter(){
+    this.presentLoading('logging', 'Logging in');
+    this._authService.login('vladimirpavk@gmail.com', 'observer')
+      .then(
+        (user:firebase.auth.UserCredential)=>{
+          this._loadingCtrl.dismiss('logging');    
+          this._router.navigate(['/', 'places']);
+        }
+      )
+      .catch(
+        (error:void)=>{
+          this._loadingCtrl.dismiss('logging');
+          this._hasErrors = true;
+          this._errorMessage = error['message'];         
+        }
+      );
   }
 
   private async presentLoading(id:string, message:string):Promise<void>{
