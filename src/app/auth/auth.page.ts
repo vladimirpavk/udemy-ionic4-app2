@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 
 import { AuthService } from './auth.service';
-import { UiService } from '../common/ui.service';
+import { UIService } from '../common/ui.service';
 
 import { Subscription } from 'rxjs';
 
@@ -25,7 +25,7 @@ export class AuthPage implements OnInit {
     private _authService:AuthService,
     private _router:Router,
     private _loadingCtrl:LoadingController,
-    private _uiService:UiService
+    private _uiService:UIService
   ) { }
 
   ngOnInit() {
@@ -33,44 +33,35 @@ export class AuthPage implements OnInit {
   }
 
   ionViewDidEnter(){
-    this.presentLoading('logging', 'Logging in');
+    this._uiService.showSpinner('logging', 'Logging in');    
     this._authService.login('vladimirpavk@gmail.com', 'observer')
       .then(
         (user:firebase.auth.UserCredential)=>{
-          this._loadingCtrl.dismiss('logging');    
-          this._router.navigate(['/', 'places']);
+          this._uiService.hideSpinner('logging');              
+          this._router.navigate(['/', 'places', 'tabs', 'discover']);
         }
       )
       .catch(
         (error:void)=>{
-          this._loadingCtrl.dismiss('logging');
+          this._uiService.hideSpinner('logging');          
           this._hasErrors = true;
           this._errorMessage = error['message'];         
         }
       );
-  }
-
-  private async presentLoading(id:string, message:string):Promise<void>{
-    const loadingDialog:HTMLIonLoadingElement=await this._loadingCtrl.create({
-      id: id,
-      message: message,
-      spinner:'crescent'
-    });
-    return loadingDialog.present();
-  }
+  } 
 
   private onLoginClicked(form:NgForm){
-    this.presentLoading('logging', 'Logging in');
-    this._authService.login(form.value['email'], form.value['password'])
+    this._uiService.showSpinner('logging', 'Logging in');    
+    this._authService.login('vladimirpavk@gmail.com', 'observer')
       .then(
         (user:firebase.auth.UserCredential)=>{
-          this._loadingCtrl.dismiss('logging');    
-          this._router.navigate(['/', 'places']);
+          this._uiService.hideSpinner('logging');              
+          this._router.navigate(['/', 'places', 'tabs', 'discover']);
         }
       )
       .catch(
         (error:void)=>{
-          this._loadingCtrl.dismiss('logging');
+          this._uiService.hideSpinner('logging');          
           this._hasErrors = true;
           this._errorMessage = error['message'];         
         }
@@ -78,17 +69,17 @@ export class AuthPage implements OnInit {
 }
 
   private onSignupClicked(form:NgForm){
-    this.presentLoading('signin', 'Singing in');
+    this._uiService.showSpinner('signin', 'Singing in');    
     this._authService.signUp(form.value['email'], form.value['password'])
     .then(
       (user:firebase.auth.UserCredential)=>{
-        this._loadingCtrl.dismiss('signin');
+        this._uiService.hideSpinner('signin');     
         this._router.navigate(['/', 'places']);
       }
     )
     .catch(
       (error:void)=>{
-        this._loadingCtrl.dismiss('signin');
+        this._uiService.hideSpinner('signin');        
         this._hasErrors = true;
         this._errorMessage = error['message'];  
       }

@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Place } from './place.model';
-import { AuthService } from '../auth/auth.service';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { take, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { take, map } from 'rxjs/operators';
+
+import { Place } from './place.model';
 import { Common } from '../common/common';
+
+import { AuthService } from '../auth/auth.service';
 
 interface PlaceData{
   availableFrom: string,

@@ -22,11 +22,11 @@ export class OffersPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this._subs1 = this._placesService.places.subscribe(
+   /*  this._subs1 = this._placesService.places.subscribe(
       (places:Place[])=>{
         this._places = places;
       }
-    );
+    ); */
   }
 
   ngOnDestroy() {

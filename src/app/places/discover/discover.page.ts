@@ -3,6 +3,7 @@ import { PlacesService } from '../places.service';
 import { Place } from '../place.model';
 import { Common } from '../../common/common';
 import { Subscription, Observable } from 'rxjs';
+import { UIService } from '../../common/ui.service';
 
 @Component({
   selector: 'app-discover',
@@ -13,10 +14,16 @@ export class DiscoverPage implements OnInit, OnDestroy {
   
   private _places$:Observable<{favoritePlace:Place, otherPlaces:Place[]}>;
 
-  constructor(private _placesService:PlacesService) { }
+  constructor(
+    private _placesService:PlacesService,
+    private _uiService:UIService
+  ) { }
 
   ngOnInit() { 
-    this._places$ = this._placesService.places;
+    setTimeout(()=>{      
+      this._places$ = this._placesService.places;
+    }, 1000);
+    
   } 
 
   ngOnDestroy(){    
@@ -24,5 +31,9 @@ export class DiscoverPage implements OnInit, OnDestroy {
 
   private segmentChanged(event: CustomEvent){
     //console.log(event.detail.value);
+  }
+
+  private loaded(){
+    console.log('loaded');
   }
 }

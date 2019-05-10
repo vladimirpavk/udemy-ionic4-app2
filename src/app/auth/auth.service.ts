@@ -1,9 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
-import { UiService } from '../common/ui.service';
 
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
