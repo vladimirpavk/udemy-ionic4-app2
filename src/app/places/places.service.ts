@@ -7,6 +7,7 @@ import { Place } from './place.model';
 import { Common } from '../common/common';
 
 import { AuthService } from '../auth/auth.service';
+import { OffersPage } from './offers/offers.page';
 
 interface PlaceData{
   availableFrom: string,
@@ -72,7 +73,10 @@ export class PlacesService {
         )
       );        
   }
-
+  
+  public offers(uid:string){
+    
+  }
 } 
   
   /* public places$:Observable<Place[]>=new Observable<Place[]>();

@@ -4,7 +4,10 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content #ioncontent>
+    <!-- <ion-label>
+        <p>vlada - {{ioncontent.el.clientHeight}}</p>
+    </ion-label> -->
     <div *ngIf="(this._places$ | async) as places; else spinner" (loaded)="loaded()">
         <ion-segment (ionChange)="segmentChanged($event)">
             <ion-segment-button value="all" checked>
@@ -67,9 +70,9 @@
             </ion-row>
         </ion-grid>    
     </div>      
-    <ng-template #spinner>        
+    <ng-template #spinner height="100%">        
         <ion-grid>
-            <ion-row>
+            <ion-row class="ion-align-items-center">
                 <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
                     <ion-spinner name="lines" color="primary"></ion-spinner>
                 </ion-col>
