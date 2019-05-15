@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject, ReplaySubject } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 
 import { Place } from './place.model';
@@ -74,7 +74,19 @@ export class PlacesService {
       );        
   }
   
-  public offers(uid:string){
+  //public offers(uid:string):ReplaySubject<{favoritePlace:Place, otherPlaces:Place[]}>{}
+
+  public proba(){
+    let observableProba = new Observable(
+      (subscriber)=>{
+        setTimeout(()=>{
+          subscriber.next(5)
+        }, 500);
+        setTimeout(() => {
+          subscriber.complete();
+        }, 1000);
+      }
+    );
     
   }
 } 
