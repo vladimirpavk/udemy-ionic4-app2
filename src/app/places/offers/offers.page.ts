@@ -4,7 +4,8 @@ import { IonItemSliding } from '@ionic/angular';
 
 import { PlacesService } from '../places.service';
 import { Place } from '../place.model';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription, interval } from 'rxjs';
+import { shareReplay, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-offers',
@@ -15,6 +16,10 @@ export class OffersPage implements OnInit, OnDestroy {
 
   private _places:Place[];
   private _subs1:Subscription;
+
+  private _places$:Observable<{favoritePlace:Place, otherPlaces:Place[]}>;
+
+  private subscription;
 
   constructor(
     private _placesService:PlacesService,
@@ -27,6 +32,19 @@ export class OffersPage implements OnInit, OnDestroy {
         this._places = places;
       }
     ); */
+    //this._placesService.proba();
+    //this._places$ = this._placesService.places.shareReplay(1);
+
+    const obs$ = interval(1000);
+    this. subscription = obs$.pipe(
+      take(50),
+      shareReplay(1)
+    );
+    this.subscription.subscribe(x => console.log('source A: ', x));    
+  }
+
+  private startMe(){
+    this.subscription.subscribe(y => console.log('source B: ', y));
   }
 
   ngOnDestroy() {

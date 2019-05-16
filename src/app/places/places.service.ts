@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject, ReplaySubject } from 'rxjs';
+import { Observable, Subject, ReplaySubject, Subscriber } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 
 import { Place } from './place.model';
@@ -77,8 +77,8 @@ export class PlacesService {
   //public offers(uid:string):ReplaySubject<{favoritePlace:Place, otherPlaces:Place[]}>{}
 
   public proba(){
-    let observableProba = new Observable(
-      (subscriber)=>{
+    let observableProba = new Observable<number>(
+      (subscriber:Subscriber<number>)=>{
         setTimeout(()=>{
           subscriber.next(5)
         }, 500);
@@ -87,7 +87,25 @@ export class PlacesService {
         }, 1000);
       }
     );
-    
+
+    observableProba.subscribe(
+      (value)=>{ console.log(value)},
+      (error)=> console.log(error),
+      ()=> console.log('completed')
+    );
+
+    let subjectProba = new Subject<number>();
+
+    subjectProba.subscribe(
+      (value)=>{ console.log('from subject :', value)},
+      (error)=> console.log('from subject :',error),
+      ()=> console.log('from subject :','completed')
+    );
+
+    subjectProba.next(10);
+    subjectProba.complete();
+
+    let sub2Proba = observableProba.pipe()
   }
 } 
   
