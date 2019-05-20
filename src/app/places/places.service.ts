@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, ReplaySubject, Subscriber } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import { take, map, shareReplay } from 'rxjs/operators';
 
 import { Place } from './place.model';
 import { Common } from '../common/common';
@@ -32,6 +32,7 @@ export class PlacesService {
   public get places():Observable<{favoritePlace:Place, otherPlaces:Place[]}>{
     return this._httpClient.get<{[name:string]:PlaceData}>('https://ionic4-udemy.firebaseio.com/places.json' + '?auth=' + this._authService.tokenId)
       .pipe(
+        shareReplay(1),
         map(
           (resData:{[name:string]:PlaceData})=>{
             
@@ -66,7 +67,7 @@ export class PlacesService {
                 otherPlaces:rndPlaces
               };
             
-            console.log(result);
+            //console.log(result);
 
             return result;
           }
@@ -76,37 +77,6 @@ export class PlacesService {
   
   //public offers(uid:string):ReplaySubject<{favoritePlace:Place, otherPlaces:Place[]}>{}
 
-  public proba(){
-    let observableProba = new Observable<number>(
-      (subscriber:Subscriber<number>)=>{
-        setTimeout(()=>{
-          subscriber.next(5)
-        }, 500);
-        setTimeout(() => {
-          subscriber.complete();
-        }, 1000);
-      }
-    );
-
-    observableProba.subscribe(
-      (value)=>{ console.log(value)},
-      (error)=> console.log(error),
-      ()=> console.log('completed')
-    );
-
-    let subjectProba = new Subject<number>();
-
-    subjectProba.subscribe(
-      (value)=>{ console.log('from subject :', value)},
-      (error)=> console.log('from subject :',error),
-      ()=> console.log('from subject :','completed')
-    );
-
-    subjectProba.next(10);
-    subjectProba.complete();
-
-    let sub2Proba = observableProba.pipe()
-  }
 } 
   
   /* public places$:Observable<Place[]>=new Observable<Place[]>();

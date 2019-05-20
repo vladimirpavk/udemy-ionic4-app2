@@ -5,9 +5,6 @@
 </ion-header>
 
 <ion-content #ioncontent>
-    <!-- <ion-label>
-        <p>vlada - {{ioncontent.el.clientHeight}}</p>
-    </ion-label> -->
     <div *ngIf="(this._places$ | async) as places; else spinner" (loaded)="loaded()">
         <ion-segment (ionChange)="segmentChanged($event)">
             <ion-segment-button value="all" checked>

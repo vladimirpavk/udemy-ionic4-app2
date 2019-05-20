@@ -22,10 +22,8 @@ export class DiscoverPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() { 
-    setTimeout(()=>{      
-      this._places$ = this._placesService.places;
-    }, 10000);
-    console.log(this.ionContent);
+    this._places$ = this._placesService.places;
+    //console.log(this.ionContent);
   } 
 
   ngOnDestroy(){    
@@ -34,8 +32,5 @@ export class DiscoverPage implements OnInit, OnDestroy {
   private segmentChanged(event: CustomEvent){
     //console.log(event.detail.value);
   }
-
-  private loaded(){
-    console.log('loaded');
-  }
+ 
 }

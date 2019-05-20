@@ -4,8 +4,9 @@ import { IonItemSliding } from '@ionic/angular';
 
 import { PlacesService } from '../places.service';
 import { Place } from '../place.model';
+
 import { Observable, Subscription, interval } from 'rxjs';
-import { shareReplay, take } from 'rxjs/operators';
+import { shareReplay, take, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-offers',
@@ -17,7 +18,7 @@ export class OffersPage implements OnInit, OnDestroy {
   private _places:Place[];
   private _subs1:Subscription;
 
-  private _places$:Observable<{favoritePlace:Place, otherPlaces:Place[]}>;
+  private _places$:Observable<Place[]>;
 
   private subscription;
 
@@ -26,26 +27,17 @@ export class OffersPage implements OnInit, OnDestroy {
     private _router:Router
   ) { }
 
-  ngOnInit() {
-   /*  this._subs1 = this._placesService.places.subscribe(
-      (places:Place[])=>{
-        this._places = places;
-      }
-    ); */
-    //this._placesService.proba();
-    //this._places$ = this._placesService.places.shareReplay(1);
+  ngOnInit() {   
 
-    const obs$ = interval(1000);
-    this. subscription = obs$.pipe(
-      take(50),
-      shareReplay(1)
+    this._places$ = this._placesService.places.pipe(
+      map(
+        (value:{favoritePlace:Place, otherPlaces:Place[]})=>{
+          return value.otherPlaces;
+        }
+      )
     );
-    this.subscription.subscribe(x => console.log('source A: ', x));    
-  }
 
-  private startMe(){
-    this.subscription.subscribe(y => console.log('source B: ', y));
-  }
+  } 
 
   ngOnDestroy() {
     this._subs1.unsubscribe();
