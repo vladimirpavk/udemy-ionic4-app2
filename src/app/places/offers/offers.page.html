@@ -24,19 +24,7 @@
                         </ion-item-option>                            
                     </ion-item-options>
 
-                    <ion-item (click)="itemClicked(place)">
-                        <ion-thumbnail slot="start">
-                            <ion-img [src]="place.imageUrl"></ion-img>
-                        </ion-thumbnail>
-                        <ion-label>
-                            <h2>
-                                {{ place.title }}
-                            </h2>
-                            <p>
-                                {{ place.description }}
-                            </p>
-                        </ion-label>
-                    </ion-item>
+                    <app-offer-item [offer]="place"></app-offer-item>
 
                 </ion-item-sliding>                   
             </ion-list>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, ReplaySubject, Subscriber } from 'rxjs';
-import { take, map, shareReplay } from 'rxjs/operators';
+import { take, map, shareReplay, filter, tap } from 'rxjs/operators';
 
 import { Place } from './place.model';
 import { Common } from '../common/common';
@@ -73,10 +73,36 @@ export class PlacesService {
           }
         )
       );        
-  }
-  
-  //public offers(uid:string):ReplaySubject<{favoritePlace:Place, otherPlaces:Place[]}>{}
+  } 
 
+  public findById(id:string):Observable<Place>{    
+    this.places.pipe(
+      map(
+        (value:{favoritePlace:Place, otherPlaces:Place[]})=>value.otherPlaces),
+      map(
+        (value:Place[])=>{
+          return value.find(
+            (element:Place)=>{
+              return element.id===id;
+            }
+          )
+        }      
+      )
+    )
+
+      /*map(
+        (value:{favoritePlace:Place, otherPlaces:Place[]})=>{
+          return value.otherPlaces;}),
+      map(
+        (value:Place[])=>{
+          console.log(value);
+
+          return value.find((element:Place)=>{
+            return element.id===id;
+          }
+          )}),      
+    );     */
+  }
 } 
   
   /* public places$:Observable<Place[]>=new Observable<Place[]>();
