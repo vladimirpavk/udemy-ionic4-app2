@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject, ReplaySubject, Subscriber } from 'rxjs';
+import { Observable, Subject, ReplaySubject, Subscriber, interval } from 'rxjs';
 import { take, map, shareReplay, filter, tap } from 'rxjs/operators';
 
 import { Place } from './place.model';
@@ -31,8 +31,7 @@ export class PlacesService {
 
   public get places():Observable<{favoritePlace:Place, otherPlaces:Place[]}>{
     return this._httpClient.get<{[name:string]:PlaceData}>('https://ionic4-udemy.firebaseio.com/places.json' + '?auth=' + this._authService.tokenId)
-      .pipe(
-        shareReplay(1),
+      .pipe(        
         map(
           (resData:{[name:string]:PlaceData})=>{
             
@@ -71,37 +70,44 @@ export class PlacesService {
 
             return result;
           }
-        )
+        ),
+        shareReplay(1)
       );        
   } 
 
+  public get offers():Observable<Place[]>{
+    return this.places.pipe(
+      map(
+        (places:{favoritePlace:Place, otherPlaces:Place[]})=>{
+          return [...places.otherPlaces, places.favoritePlace]
+        }
+      ),
+      shareReplay(1)
+    );
+  }
+
+  public ofNeka:Observable<number> = interval(1000).pipe(
+    take(5),
+    shareReplay(1)
+  );
+
+  public get offfers2():Observable<number>{
+    return interval(1000).pipe(
+      take(5),
+      shareReplay(1)
+    );
+  }
+
   public findById(id:string):Observable<Place>{    
-    this.places.pipe(
-      map(
-        (value:{favoritePlace:Place, otherPlaces:Place[]})=>value.otherPlaces),
-      map(
-        (value:Place[])=>{
-          return value.find(
-            (element:Place)=>{
-              return element.id===id;
-            }
-          )
-        }      
-      )
-    )
-
-      /*map(
-        (value:{favoritePlace:Place, otherPlaces:Place[]})=>{
-          return value.otherPlaces;}),
-      map(
-        (value:Place[])=>{
-          console.log(value);
-
-          return value.find((element:Place)=>{
-            return element.id===id;
-          }
-          )}),      
-    );     */
+    return this.places.pipe(
+      map((places:{favoritePlace:Place, otherPlaces:Place[]})=>[...places.otherPlaces, places.favoritePlace]),
+      map((places:Place[])=>{
+        console.log([...places]);
+        return places.find(
+          (place:Place)=>place.id==id
+        );        
+      })
+    );    
   }
 } 
   

@@ -15,6 +15,7 @@ export class EditOfferPage implements OnInit {
   private _place:Place;
   private _offersForm:FormGroup;
   private _didValidate:boolean = false;
+  private _didLoad:boolean = false;
   private _validationResult: {[key:string]:boolean} = {};
 
   constructor(
@@ -29,14 +30,16 @@ export class EditOfferPage implements OnInit {
         this._placesService.findById(paramMap.get('id')).subscribe(
           (place:Place)=>{
             console.log(place);
+            if(place){              
+              this._place = place;
+              this._didLoad = true;
+              this._offersForm = new FormGroup({
+                title: new FormControl(this._place.title, [Validators.required, Validators.minLength(3), Validators.maxLength(60)]),
+                description: new FormControl(this._place.description, [Validators.required, Validators.minLength(3), Validators.maxLength(120)])
+              });
+            }          
           }
-        )
-        
-
-        this._offersForm = new FormGroup({
-          title: new FormControl(this._place.title, [Validators.required, Validators.minLength(3), Validators.maxLength(60)]),
-          description: new FormControl(this._place.description, [Validators.required, Validators.minLength(3), Validators.maxLength(120)])
-        });
+        )                
       }
     );
   }

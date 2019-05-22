@@ -16,6 +16,7 @@
 </ion-header>
 
 <ion-content no-padding>
+  <div *ngIf="_didLoad; else spinner">
     <form [formGroup]="_offersForm">
       <ion-grid no-padding>          
         <ion-row>
@@ -43,9 +44,20 @@
                 <p>Must be more than 3 characters long and less than 60 characters long.</p>
               </ion-label>
             </ion-item>
-
           </ion-col>
         </ion-row>
       </ion-grid>
     </form>
+  </div>
+
+  <ng-template #spinner height="100%">        
+      <ion-grid>
+          <ion-row class="ion-align-items-center">
+              <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
+                  <ion-spinner name="lines" color="primary"></ion-spinner>
+              </ion-col>
+          </ion-row>
+      </ion-grid>                                            
+  </ng-template>   
+  
 </ion-content>

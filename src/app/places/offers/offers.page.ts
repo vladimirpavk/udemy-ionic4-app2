@@ -22,6 +22,11 @@ export class OffersPage implements OnInit, OnDestroy {
 
   private subscription;
 
+  private _observableNumber$:Observable<number>;
+
+  private _numOfSubs:number = 0;
+  private _subscriptions:Subscription[] = [];
+
   constructor(
     private _placesService:PlacesService,
     private _router:Router
@@ -29,13 +34,18 @@ export class OffersPage implements OnInit, OnDestroy {
 
   ngOnInit() {   
 
-    this._places$ = this._placesService.places.pipe(
+    this._places$ = this._placesService.offers;
+
+    this._observableNumber$=interval(1000).pipe(
+      take(5),
+      shareReplay(1),
       map(
-        (value:{favoritePlace:Place, otherPlaces:Place[]})=>{
-          return value.otherPlaces;
+        (value:number)=>{
+          return value*2;
         }
       )
     );
+
 
   } 
 
@@ -51,6 +61,25 @@ export class OffersPage implements OnInit, OnDestroy {
 
   private itemClicked(place:Place):void{
     this._router.navigate(['/', 'places', 'tabs', 'offers', 'offer-bookings', place.id]);
+  }
+
+  private subscribe(){    
+/*     let proba=this._numOfSubs++;
+    this._subscriptions.push(
+      this._observableNumber$.subscribe(
+        (value:number)=>{          
+          console.log('from '+proba+' :', value);
+        }
+      )
+    ) */
+    let proba=this._numOfSubs++;
+    this._subscriptions.push(
+      this._placesService.ofNeka.subscribe(
+        (value)=>{          
+          console.log('from '+proba+' :', value);
+        }
+      )
+    );
   }
 
 }
