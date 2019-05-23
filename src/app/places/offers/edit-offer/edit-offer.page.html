@@ -46,6 +46,13 @@
             </ion-item>
           </ion-col>
         </ion-row>
+        <ion-row class="ion-justify-content-center" *ngIf="_hasHttpsErrors">
+          <ion-col size-sm="8">            
+            <ion-label color="danger">
+              <p>Update unsuccessfull...</p>
+            </ion-label>                       
+          </ion-col>
+        </ion-row>
       </ion-grid>
     </form>
   </div>

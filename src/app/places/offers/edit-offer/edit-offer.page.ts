@@ -17,6 +17,7 @@ export class EditOfferPage implements OnInit {
   private _didValidate:boolean = false;
   private _didLoad:boolean = false;
   private _validationResult: {[key:string]:boolean} = {};
+  private _hasHttpsErrors: boolean = false;
 
   constructor(
     private _activatedRoute:ActivatedRoute,
@@ -29,7 +30,7 @@ export class EditOfferPage implements OnInit {
       (paramMap:ParamMap)=>{
         this._placesService.findById(paramMap.get('id')).subscribe(
           (place:Place)=>{
-            console.log(place);
+            //console.log(place);
             if(place){              
               this._place = place;
               this._didLoad = true;
@@ -48,8 +49,7 @@ export class EditOfferPage implements OnInit {
     Common.validateForm(this._validationResult, '', this._offersForm);    
     this._didValidate = true;
     if(this._offersForm.valid){
-      //uradi nešto
-      this.router.navigate(['/','places', 'tabs',  'offers']);
+      //uradi nešto      
       let newPlace:Place = new Place(
         this._place.id,
         this._offersForm.value['title'],
@@ -61,6 +61,19 @@ export class EditOfferPage implements OnInit {
         this._place.userId
       );      
       //this._placesService.replace(this._place, newPlace);
+      this._placesService.updatePlace(newPlace).subscribe(
+        (jason)=>{
+          //console.log('ok', jason);
+          this.router.navigate(['/','places', 'tabs',  'offers']);
+        },
+        (error)=>{
+          //console.log('error', error);
+          this._hasHttpsErrors = true;
+        },
+        ()=>{
+          //console.log('complete');
+        }
+      )
     }
   }
 }
