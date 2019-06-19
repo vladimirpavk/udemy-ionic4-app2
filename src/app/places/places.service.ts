@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject, ReplaySubject, Subscriber, interval } from 'rxjs';
-import { take, map, shareReplay, filter, tap } from 'rxjs/operators';
+import { Observable, BehaviorSubject, Subscriber } from 'rxjs';
+import { take, map, filter, tap, shareReplay } from 'rxjs/operators';
 
 import { Place } from './place.model';
 import { Common } from '../common/common';
@@ -24,14 +24,13 @@ interface PlaceData{
 })
 export class PlacesService {
   
-  private _places:Observable<{favoritePlace:Place, otherPlaces:Place[]}>;
-
   constructor(
     private _authService:AuthService,
     private _httpClient:HttpClient
-  ) { 
-
-    this._places = this._httpClient.get<{[name:string]:PlaceData}>('https://ionic4-udemy.firebaseio.com/places.json' + '?auth=' + this._authService.tokenId)
+  ) {}  
+  
+  private get _places$():Observable<Place[]>{
+    return this._httpClient.get<{[name:string]:PlaceData}>('https://ionic4-udemy.firebaseio.com/places.json' + '?auth=' + this._authService.tokenId)
     .pipe(        
       map(
         (resData:{[name:string]:PlaceData})=>{
@@ -55,8 +54,19 @@ export class PlacesService {
               );
             }
           );
-          //ovde imaš Place[] sa podacima
-          const rnd = Common.randomize(places)    
+          return places;
+        }
+        ),
+      shareReplay(1)
+    );
+  }
+
+  public get discoveredPlaces():Observable<{favoritePlace:Place, otherPlaces:Place[]}>{
+    //return this._places$.asObservable();
+    return this._places$.pipe(
+      map(
+      (places:Place[])=>{
+        const rnd = Common.randomize(places);    
           let rndPlaces:Place[] = rnd.output;
           let rndIndex:number = rnd.index;
           let rndFavoritePlace:Place = places[rndIndex];
@@ -67,46 +77,24 @@ export class PlacesService {
               otherPlaces:rndPlaces
             };
           
-          //console.log(result);
-
           return result;
-        }
-      ),
-      shareReplay(1)
-    );        
-  }  
-  
-  public get places():Observable<{favoritePlace:Place, otherPlaces:Place[]}>{
-    return this._places;
+      }
+    ));        
   }
   
-
   public get offers():Observable<Place[]>{
-    return this.places.pipe(
+    return this._places$.pipe(
       map(
-        (places:{favoritePlace:Place, otherPlaces:Place[]})=>{
-          return [...places.otherPlaces, places.favoritePlace]
+        (places:Place[])=>{
+          const filteredPlaces:Place[] = places.filter((place:Place)=>place.userId===this._authService.userId);
+          return filteredPlaces;
         }
-      ),
-      shareReplay(1)
-    );
-  }
-
-  public ofNeka:Observable<number> = interval(1000).pipe(
-    take(5),
-    shareReplay(1)
-  );
-
-  public get offfers2():Observable<number>{
-    return interval(1000).pipe(
-      take(5),
-      shareReplay(1)
+      )
     );
   }
 
   public findById(id:string):Observable<Place>{    
-    return this.places.pipe(
-      map((places:{favoritePlace:Place, otherPlaces:Place[]})=>[...places.otherPlaces, places.favoritePlace]),
+    return this._places$.pipe(      
       map((places:Place[])=>{
         //console.log([...places]);
         return places.find(
@@ -120,4 +108,14 @@ export class PlacesService {
     const url=`https://ionic4-udemy.firebaseio.com/places/${newPlace.id}.json`;
     return this._httpClient.put(url, { ...newPlace, id:null });
   }
+
+  public updatePlaces$(newPlace:Place):void{
+    this.offers.pipe(
+      tap((places:Place[])=>{
+        const filteredPlaces =  places.filter((place:Place)=>place.id!==newPlace.id);
+        return [...filteredPlaces, newPlace];
+      })
+      //tap((places:Place[])=>this._places$.next(places)
+    )
+  } 
 }

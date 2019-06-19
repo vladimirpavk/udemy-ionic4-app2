@@ -1,31 +1,20 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonItemSliding } from '@ionic/angular';
 
 import { PlacesService } from '../places.service';
 import { Place } from '../place.model';
 
-import { Observable, Subscription, interval } from 'rxjs';
-import { shareReplay, take, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-offers',
   templateUrl: './offers.page.html',
   styleUrls: ['./offers.page.scss'],
 })
-export class OffersPage implements OnInit, OnDestroy {
-
-  private _places:Place[];
-  private _subs1:Subscription;
+export class OffersPage implements OnInit {
 
   private _places$:Observable<Place[]>;
-
-  private subscription;
-
-  private _observableNumber$:Observable<number>;
-
-  private _numOfSubs:number = 0;
-  private _subscriptions:Subscription[] = [];
 
   constructor(
     private _placesService:PlacesService,
@@ -33,17 +22,10 @@ export class OffersPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {   
-
-    this._places$ = this._placesService.offers;
-    
+    this._places$ = this._placesService.offers;    
   } 
 
-  ngOnDestroy() {
-    this._subs1.unsubscribe();
-  }
-
-  private editIconClicked(place:Place, itemSliding:IonItemSliding):void{
-    //console.log(place);
+  private editIconClicked(place:Place, itemSliding:IonItemSliding):void{    
     this._router.navigate(['/', 'places', 'tabs', 'offers', 'edit-offer', place.id]);    
     itemSliding.close();
   }

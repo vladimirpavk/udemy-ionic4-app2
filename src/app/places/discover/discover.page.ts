@@ -12,9 +12,7 @@ import { UIService } from '../../common/ui.service';
 })
 export class DiscoverPage implements OnInit, OnDestroy {
   
-  private _places$:Observable<{favoritePlace:Place, otherPlaces:Place[]}>;
-
-  @ViewChild('ioncontent') ionContent;
+  private _places$:Observable<{favoritePlace:Place, otherPlaces:Place[]}>;  
 
   constructor(
     private _placesService:PlacesService,
@@ -22,8 +20,7 @@ export class DiscoverPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() { 
-    this._places$ = this._placesService.places;
-    //console.log(this.ionContent);
+    this._places$ = this._placesService.discoveredPlaces;    
   } 
 
   ngOnDestroy(){    
