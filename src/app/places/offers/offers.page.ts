@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
   templateUrl: './offers.page.html',
   styleUrls: ['./offers.page.scss'],
 })
-export class OffersPage implements OnInit {
+export class OffersPage{
 
   private _places$:Observable<Place[]>;
 
@@ -21,7 +21,7 @@ export class OffersPage implements OnInit {
     private _router:Router
   ) { }
 
-  ngOnInit() {   
+  ionViewWillEnter() {       
     this._places$ = this._placesService.offers;    
   } 
 
@@ -33,4 +33,8 @@ export class OffersPage implements OnInit {
   private itemClicked(place:Place):void{
     this._router.navigate(['/', 'places', 'tabs', 'offers', 'offer-bookings', place.id]);
   } 
+
+  private createOffer(event:any){
+    console.log(event);
+  }
 }

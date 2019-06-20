@@ -34,7 +34,7 @@ export class AuthPage implements OnInit {
 
   ionViewDidEnter(){
     this._uiService.showSpinner('logging', 'Logging in');    
-    this._authService.login('vladimirpavk@gmail.com', 'observer')
+     this._authService.login('npavk@gmail.com', 'observer')
       .then(
         (user:firebase.auth.UserCredential)=>{
           this._uiService.hideSpinner('logging');              

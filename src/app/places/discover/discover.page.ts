@@ -10,7 +10,7 @@ import { UIService } from '../../common/ui.service';
   templateUrl: './discover.page.html',
   styleUrls: ['./discover.page.scss'],
 })
-export class DiscoverPage implements OnInit, OnDestroy {
+export class DiscoverPage{
   
   private _places$:Observable<{favoritePlace:Place, otherPlaces:Place[]}>;  
 
@@ -19,15 +19,12 @@ export class DiscoverPage implements OnInit, OnDestroy {
     private _uiService:UIService
   ) { }
 
-  ngOnInit() { 
-    this._places$ = this._placesService.discoveredPlaces;    
-  } 
-
-  ngOnDestroy(){    
+  ionViewWillEnter(){
+    this._places$ = this._placesService.discoveredPlaces;
   }
 
   private segmentChanged(event: CustomEvent){
-    //console.log(event.detail.value);
+    console.log(event.detail.value);
   }
  
 }

@@ -109,13 +109,12 @@ export class PlacesService {
     return this._httpClient.put(url, { ...newPlace, id:null });
   }
 
-  public updatePlaces$(newPlace:Place):void{
+  public updatePlaces$(newPlace:Place):void{   
     this.offers.pipe(
       tap((places:Place[])=>{
         const filteredPlaces =  places.filter((place:Place)=>place.id!==newPlace.id);
         return [...filteredPlaces, newPlace];
       })
-      //tap((places:Place[])=>this._places$.next(places)
-    )
+    );
   } 
 }
