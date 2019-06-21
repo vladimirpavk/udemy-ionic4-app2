@@ -81,6 +81,32 @@ export class PlacesService {
       }
     ));        
   }
+
+  public get discoveredAllByMyPlaces():Observable<{favoritePlace:Place, otherPlaces:Place[]}>{
+    return this._places$.pipe(
+      map(
+        (places:Place[])=>{
+          const allByMyPlaces = places.filter((place:Place)=>place.userId!==this._authService.userId);
+          return allByMyPlaces;
+        }
+      ),
+      map(
+        (places:Place[])=>{
+          const rnd = Common.randomize(places);    
+            let rndPlaces:Place[] = rnd.output;
+            let rndIndex:number = rnd.index;
+            let rndFavoritePlace:Place = places[rndIndex];
+  
+            const result = 
+              {
+                favoritePlace:rndFavoritePlace,
+                otherPlaces:rndPlaces
+              };            
+            return result;
+        }
+      )
+    )
+  }
   
   public get offers():Observable<Place[]>{
     return this._places$.pipe(
@@ -109,12 +135,16 @@ export class PlacesService {
     return this._httpClient.put(url, { ...newPlace, id:null });
   }
 
-  public updatePlaces$(newPlace:Place):void{   
+ /*  public updatePlaces$(newPlace:Place):void{   
     this.offers.pipe(
       tap((places:Place[])=>{
         const filteredPlaces =  places.filter((place:Place)=>place.id!==newPlace.id);
         return [...filteredPlaces, newPlace];
       })
     );
-  } 
+  }  */
+
+  public addPlace(place:Place):Observable<Place>{
+    return  this._httpClient.post<Place>('https://ionic4-udemy.firebaseio.com/places.json' + '?auth=' + this._authService.tokenId, place);
+  }
 }

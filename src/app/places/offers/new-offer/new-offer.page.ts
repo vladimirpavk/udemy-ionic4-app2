@@ -14,8 +14,9 @@ import { Router } from '@angular/router';
 export class NewOfferPage implements OnInit {
 
   private _didValidate:boolean = false;
+  private _networkError:boolean = false;
   private _validationResult: {[key:string]:boolean} = {};
-  private _offerForm: FormGroup;
+  private _offerForm: FormGroup;  
 
   constructor(
     private _placesService:PlacesService,
@@ -41,19 +42,30 @@ export class NewOfferPage implements OnInit {
     this._didValidate = true;
     if( this._offerForm.valid ){
       //submit the form
-        /*this._placesService.addPlace(
-        new Place(
-          '',
-          this._offerForm.value['place']['title'],
-          this._offerForm.value['place']['description'],
-          this._offerForm.value['place']['imageUrl'],
-          this._offerForm.value['place']['price'],
-          this._offerForm.value['startDate'],
-          this._offerForm.value['endDate'],
-          this._authService.userId
-        )
-        );*/
-      this._router.navigate(['/', 'places', 'tabs', 'offers']);
+        this._placesService.addPlace(
+          new Place(
+            '',
+            this._offerForm.value['place']['title'],
+            this._offerForm.value['place']['description'],
+            this._offerForm.value['place']['imageUrl'],
+            this._offerForm.value['place']['price'],
+            this._offerForm.value['startDate'],
+            this._offerForm.value['endDate'],
+            this._authService.userId
+          )
+        ).subscribe(
+          (place:Place)=>{
+            console.log(place);
+            this._router.navigate(['/', 'places', 'tabs', 'offers']);
+          },
+          (error:any)=>{
+            console.log(error);
+            this._networkError = true;
+          },
+          ()=>{
+            console.log('complete');
+          }
+        )      
     }
   }
 }

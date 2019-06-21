@@ -102,6 +102,13 @@
           </ion-item>
         </ion-col>
       </ion-row>
+      <ion-row *ngIf="this._networkError">
+        <ion-col>
+          <ion-item lines="none">
+            <ion-label color="danger">Network error. Place could not be saved.</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
     </ion-grid>
   </form>
 </ion-content>

@@ -32,9 +32,5 @@ export class OffersPage{
 
   private itemClicked(place:Place):void{
     this._router.navigate(['/', 'places', 'tabs', 'offers', 'offer-bookings', place.id]);
-  } 
-
-  private createOffer(event:any){
-    console.log(event);
-  }
+  }  
 }

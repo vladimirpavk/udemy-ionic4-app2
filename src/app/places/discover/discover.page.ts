@@ -20,11 +20,16 @@ export class DiscoverPage{
   ) { }
 
   ionViewWillEnter(){
-    this._places$ = this._placesService.discoveredPlaces;
+    //this._places$ = this._placesService.discoveredPlaces;
   }
 
   private segmentChanged(event: CustomEvent){
-    console.log(event.detail.value);
+    if(event.detail.value == "all"){      
+      this._places$ = this._placesService.discoveredPlaces;
+    }
+    else{
+      this._places$ = this._placesService.discoveredAllByMyPlaces;
+    }
   }
  
 }
