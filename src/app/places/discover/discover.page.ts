@@ -28,7 +28,7 @@ export class DiscoverPage{
       this._places$ = this._placesService.discoveredPlaces;
     }
     else{
-      this._places$ = this._placesService.discoveredAllByMyPlaces;
+      this._places$ = this._placesService.discoveredAllButMyPlaces;
     }
   }
  

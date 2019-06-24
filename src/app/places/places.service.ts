@@ -62,7 +62,6 @@ export class PlacesService {
   }
 
   public get discoveredPlaces():Observable<{favoritePlace:Place, otherPlaces:Place[]}>{
-    //return this._places$.asObservable();
     return this._places$.pipe(
       map(
       (places:Place[])=>{
@@ -82,12 +81,12 @@ export class PlacesService {
     ));        
   }
 
-  public get discoveredAllByMyPlaces():Observable<{favoritePlace:Place, otherPlaces:Place[]}>{
+  public get discoveredAllButMyPlaces():Observable<{favoritePlace:Place, otherPlaces:Place[]}>{
     return this._places$.pipe(
       map(
         (places:Place[])=>{
-          const allByMyPlaces = places.filter((place:Place)=>place.userId!==this._authService.userId);
-          return allByMyPlaces;
+          const allButMyPlaces = places.filter((place:Place)=>place.userId!==this._authService.userId);
+          return allButMyPlaces;
         }
       ),
       map(
