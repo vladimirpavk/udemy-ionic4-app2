@@ -1,9 +1,10 @@
-import { Place } from '../places/place.model';
-
-export class Booking{
+export class Booking {
     constructor(
-        public place:Place,
-        public userId:string,
-        public guests:number
-    ){}
-}
+      public id: string,
+      public placeId: string,
+      public userId: string,      
+      public guestNumber: number,
+      public bookedFrom: Date,
+      public bookedTo: Date
+    ) {}
+  }

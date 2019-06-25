@@ -30,6 +30,11 @@ export class PlaceDetailPage implements OnInit {
         //console.log(paramMap.get('id'));
         this._id = paramMap.get('id')
         //this._selectedPlace = this._placeService.findById(this._id);
+        this._placeService.findById(this._id).subscribe(
+          (place:Place)=>{
+            this._selectedPlace = place;
+          }
+        )
       }
     );  
   }

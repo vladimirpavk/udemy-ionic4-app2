@@ -16,7 +16,7 @@ export class BookingsPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this._bookings = this._bookingsService.getBookings();
+    //this._bookings = this._bookingsService.getBookings();
   }
 
 }
