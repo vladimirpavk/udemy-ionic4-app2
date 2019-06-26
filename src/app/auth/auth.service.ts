@@ -18,18 +18,25 @@ export class AuthService {
     return this._userId;
   }
 
+  private _email:string = '';
+  public get email():string{
+    return this._email;
+  }
+
   constructor() { 
     firebase.auth().onAuthStateChanged(
       (user:firebase.User)=>{
         if(user){
-          //user logged in                         
+          //user logged in          
           this._tokenId = user['ra'];
           this._userId = user['uid'];
+          this._email = user['email'];
         }
         else{
           //user logged out          
           this._tokenId = '';
-          this._userId = '';          
+          this._userId = '';         
+          this._email = '';
         }
       }
     )

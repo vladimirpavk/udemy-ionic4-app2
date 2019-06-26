@@ -1,7 +1,9 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Place } from '../../../place.model';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { NgForm, NgModel } from '@angular/forms';
+
+import { Place } from '../../../place.model';
+import { AuthService } from '../../../../auth/auth.service';
 
 @Component({
   selector: 'app-create-booking',
@@ -15,19 +17,21 @@ export class CreateBookingPage implements OnInit {
   @ViewChild('toDate') endDate:NgModel;
   @ViewChild('f') form:NgForm;
 
+  private _userEmail:string = '';
+
   constructor(
-    private _modalController:ModalController
+    private _modalController:ModalController,
+    private _authService:AuthService
   ) { }
 
   ngOnInit() {
+    this._userEmail = this._authService.email;    
   }
 
   private closeButtonClicked(status:string){
     this._modalController.dismiss({
       booking: {
-        status: status,
-        firstName: this.form.value['firstName'],
-        lastName:this.form.value['lastname'],
+        status: status,      
         numOfGuests:this.form.value['numOfGuests'],
         startFrom:this.form.value['fromDate'],
         endDate:this.form.value['toDate']

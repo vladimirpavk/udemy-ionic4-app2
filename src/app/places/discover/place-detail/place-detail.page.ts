@@ -21,7 +21,7 @@ export class PlaceDetailPage implements OnInit {
     private route:ActivatedRoute,
     private _modalController:ModalController,
     private _actionSheetCtrl:ActionSheetController,
-    private _placeService:PlacesService
+    private _placesService:PlacesService
   ) { }
 
   ngOnInit() {
@@ -30,7 +30,7 @@ export class PlaceDetailPage implements OnInit {
         //console.log(paramMap.get('id'));
         this._id = paramMap.get('id')
         //this._selectedPlace = this._placeService.findById(this._id);
-        this._placeService.findById(this._id).subscribe(
+        this._placesService.findById(this._id).subscribe(
           (place:Place)=>{
             this._selectedPlace = place;
           }
@@ -54,7 +54,7 @@ export class PlaceDetailPage implements OnInit {
     const actionSheet:HTMLIonActionSheetElement = await this._actionSheetCtrl.create(
       {
         id: 'actionSheet1',
-        header: 'Book property '+this._id,
+        header: 'Book property - '+this._selectedPlace.title,
         buttons: [{
           text: 'Book',
           icon: 'arrow-dropright-circle',
