@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 
 interface BookArgument{
-    placeId: string,        
+    placeId: string,
+    userId: string,      
     guestNumber: number,
     bookedFrom: Date,
     bookedTo: Date

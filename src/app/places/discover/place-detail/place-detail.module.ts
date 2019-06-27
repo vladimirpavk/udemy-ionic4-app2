@@ -7,6 +7,7 @@ import { IonicModule, NavParams } from '@ionic/angular';
 
 import { PlaceDetailPage } from './place-detail.page';
 import { CreateBookingPage } from './create-booking/create-booking.page';
+import { BookingsService } from '../../../bookings/bookings.service';
 
 const routes: Routes = [
   {
@@ -24,6 +25,6 @@ const routes: Routes = [
   ],
   declarations: [PlaceDetailPage, CreateBookingPage],
   entryComponents: [CreateBookingPage],
-  providers:[]
+  providers:[BookingsService]
 })
 export class PlaceDetailPageModule {}

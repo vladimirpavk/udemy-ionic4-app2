@@ -27,5 +27,4 @@ export class UIService{
     public hideSpinner(id:string):Promise<void>{
         return this._loadingCtrl.dismiss(id);
     }
-    
 }
