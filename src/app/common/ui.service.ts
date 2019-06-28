@@ -17,14 +17,14 @@ export class UIService{
           message: message,
           spinner:'crescent'
         });
-        return loadingDialog.present();
+        return await loadingDialog.present();
     }
 
-    public showSpinner(id:string, message:string):Promise<void>{
-        return this._presentLoading(id, message);
+    public async showSpinner(id:string, message:string):Promise<void>{
+        return await this._presentLoading(id, message);
     }
 
-    public hideSpinner(id:string):Promise<void>{
-        return this._loadingCtrl.dismiss(id);
+    public async hideSpinner(id:string):Promise<void>{
+        return await this._loadingCtrl.dismiss(id);
     }
 }

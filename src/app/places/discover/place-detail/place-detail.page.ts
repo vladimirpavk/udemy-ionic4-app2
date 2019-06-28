@@ -47,7 +47,7 @@ export class PlaceDetailPage implements OnInit {
       }
     });
     modalDialog.present();
-    return modalDialog.onDidDismiss();
+    return await modalDialog.onDidDismiss();
   }
 
   private async CreateActionSheet() {
@@ -59,18 +59,7 @@ export class PlaceDetailPage implements OnInit {
           text: 'Book',
           icon: 'arrow-dropright-circle',
           handler: () => {            
-            this.CreateBookingModal().then(
-              (data:any)=>{
-                if(data.data['booking'].status == 'dismissed')
-                {
-                  console.log('BOOKING DISMISSED');
-                }
-                else{
-                  console.log('BOOKED');
-                  console.log(data.data['booking']);
-                }
-              }
-            )
+            this.CreateBookingModal();
           }
         }, {
           text: 'Cancel',

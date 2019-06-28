@@ -46,7 +46,7 @@ export class CreateBookingPage implements OnInit {
 
   private async _presentBookingSuccess(){
     const alertPopUp = await this._alertController.create({      
-      message:'Booking <strong>successfull<strong>',
+      message:'Booking <strong>successfull<strong>...',
       buttons: [
         {
           text: 'Ok',
@@ -59,14 +59,37 @@ export class CreateBookingPage implements OnInit {
     return await alertPopUp.present();
   }
 
+  private async _presentBookingFailed(){
+    const alertPopUpFailed = await this._alertController.create({      
+      message:'Booking <strong>failed<strong>...',
+      buttons: [
+        {
+          text: 'Retry',          
+          handler: ()=>{
+            this.makeBooking();
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    });
+    return await alertPopUpFailed.present();
+  }
+
   private dismissModal(){
     this._modalController.dismiss();
   }
   
   private formSubmitted(f:NgForm){ 
     if(!this.form.valid) return;
-    //this.dismissModal('confirmed');
-    this._uiService.showSpinner('spinner1', 'Booking in progress');
+    this.makeBooking();
+   
+  }
+
+  private async makeBooking(){
+    await this._uiService.showSpinner('spinner1', 'Booking in progress');
     this._bookingsService.addBooking(
       {
         placeId: this.place.id,
@@ -81,7 +104,9 @@ export class CreateBookingPage implements OnInit {
           this._presentBookingSuccess();
         },
         (error:any)=>{
-          
+          this._uiService.hideSpinner('spinner1');
+          //console.log('Network connection error - ', error);          
+          this._presentBookingFailed();
         }
       )
   }
