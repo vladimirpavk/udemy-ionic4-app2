@@ -90,11 +90,12 @@ export class CreateBookingPage implements OnInit {
 
   private async makeBooking(){
     await this._uiService.showSpinner('spinner1', 'Booking in progress');
+    //console.log('Guest number: '+this.form.valid['numOfGuests']); 
     this._bookingsService.addBooking(
       {
         placeId: this.place.id,
         userId: this._authService.userId,
-        guestNumber: this.form.valid['numOfGuests'],
+        guestNumber: this.form.value['numOfGuests'],
         bookedFrom: this.form.value['fromDate'],
         bookedTo: this.form.value['toDate']
       }).subscribe(

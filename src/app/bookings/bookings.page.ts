@@ -17,6 +17,16 @@ export class BookingsPage implements OnInit {
 
   ngOnInit() {
     //this._bookings = this._bookingsService.getBookings();
+    this._bookingsService.myBookings$.subscribe(
+      (myBookings:Booking[])=>{
+        console.log(myBookings);
+      }
+    )
+   /*  this._bookingsService._bookings$.subscribe(
+      (books:Booking[])=>{
+        console.log(books)
+      }
+    ); */
   }
 
 }

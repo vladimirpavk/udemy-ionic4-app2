@@ -16,6 +16,8 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   declarations: [PlacesPage],
-  providers: [PlacesService]
+  providers: [
+    PlacesService
+  ]
 })
 export class PlacesPageModule {}

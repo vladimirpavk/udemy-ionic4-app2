@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { CanActivatePlacesGuardService } from './guards/can-activate-places-guard.service';
+import { BookingsService } from './bookings/bookings.service';
+import { PlacesService } from './places/places.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'places', pathMatch: 'full' },

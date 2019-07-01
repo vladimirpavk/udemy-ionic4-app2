@@ -6,6 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { BookingsPage } from './bookings.page';
+import { BookingsService } from './bookings.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [
   {
@@ -19,7 +21,11 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    HttpClientModule
+  ],
+  providers:[
+    BookingsService
   ],
   declarations: [BookingsPage]
 })

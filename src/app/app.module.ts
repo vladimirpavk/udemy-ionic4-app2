@@ -11,6 +11,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CanActivatePlacesGuardService } from './guards/can-activate-places-guard.service';
 import { AuthService } from './auth/auth.service';
+import { BookingsService } from './bookings/bookings.service';
+import { PlacesService } from './places/places.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,7 +28,7 @@ import { AuthService } from './auth/auth.service';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AuthService,
-    CanActivatePlacesGuardService    
+    CanActivatePlacesGuardService
   ],
   bootstrap: [AppComponent]
 })
