@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { BookingsPage } from './bookings.page';
 import { BookingsService } from './bookings.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { PlacesService } from '../places/places.service';
 
 const routes: Routes = [
   {
@@ -25,7 +26,8 @@ const routes: Routes = [
     HttpClientModule
   ],
   providers:[
-    BookingsService
+    BookingsService,
+    PlacesService
   ],
   declarations: [BookingsPage]
 })

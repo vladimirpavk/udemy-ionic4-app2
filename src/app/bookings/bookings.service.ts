@@ -29,7 +29,7 @@ export class BookingsService{
         return this._httpClient.post<BookArgument>('https://ionic4-udemy.firebaseio.com/bookings.json' + '?auth=' + this._authService.tokenId, bookArg);
     }
 
-    public get _bookings$():Observable<Booking[]>{
+    private get _bookings$():Observable<Booking[]>{
         return this._httpClient.get<{[name:string]:BookArgument}>('https://ionic4-udemy.firebaseio.com/bookings.json' + '?auth=' + this._authService.tokenId)
             .pipe(
                 map(
