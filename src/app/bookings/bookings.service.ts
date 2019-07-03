@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
-import { map, switchMap, shareReplay } from 'rxjs/operators';
+import { Observable, from } from 'rxjs';
+import { map, switchMap, shareReplay, mergeMap } from 'rxjs/operators';
 
 import { AuthService } from '../auth/auth.service';
 import { Booking } from './booking.model';
+import { PlacesService } from '../places/places.service';
+import { Place } from '../places/place.model';
 
 interface BookArgument{
     placeId: string,
@@ -21,7 +23,8 @@ interface BookArgument{
 export class BookingsService{
     constructor(
         private _httpClient:HttpClient,
-        private _authService:AuthService
+        private _authService:AuthService,
+        private _placesService:PlacesService
     ){}
 
     public addBooking(bookArg:BookArgument):Observable<BookArgument>
@@ -79,5 +82,33 @@ export class BookingsService{
                 }
             )
         )
+    }
+
+    public get myBookingsWithPlaces$():Observable<Booking>{
+        return this.myBookings$.pipe(
+            switchMap(
+              (myBookings:Booking[])=>{
+                return from([...myBookings]);
+              }
+            ),
+            mergeMap(
+              (booking:Booking)=>{         
+                return this._placesService.findById(booking.placeId).pipe(
+                  map(
+                    (place:Place)=>{
+                      return { booking: booking, place: place };
+                    }
+                  )
+                )
+              }
+            ),
+            map(
+              (data:{booking: Booking, place: Place})=>{
+               data.booking.placeId = data.place;
+               //console.log(data.booking);
+               return data.booking
+              }
+            )
+        );
     }
 }

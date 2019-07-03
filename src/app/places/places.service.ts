@@ -118,7 +118,7 @@ export class PlacesService {
     );
   }
 
-  public findById(id:string):Observable<Place>{    
+  public findById(id:string | Place):Observable<Place>{    
     return this._places$.pipe(      
       map((places:Place[])=>{
         //console.log([...places]);
