@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent } from '@angular/common/http';
 
-import { Observable, from } from 'rxjs';
+import { Observable, from, ObservableLike } from 'rxjs';
 import { map, switchMap, shareReplay, mergeMap } from 'rxjs/operators';
 
 import { AuthService } from '../auth/auth.service';
@@ -32,11 +32,16 @@ export class BookingsService{
         return this._httpClient.post<BookArgument>('https://ionic4-udemy.firebaseio.com/bookings.json' + '?auth=' + this._authService.tokenId, bookArg);
     }
 
+    public deleteBooking(bookingId:string){
+        return this._httpClient.delete('https://ionic4-udemy.firebaseio.com/bookings/'+bookingId+'.json' + '?auth=' + this._authService.tokenId);
+    }
+
     private get _bookings$():Observable<Booking[]>{
         return this._httpClient.get<{[name:string]:BookArgument}>('https://ionic4-udemy.firebaseio.com/bookings.json' + '?auth=' + this._authService.tokenId)
             .pipe(
                 map(
                     (resData:{[name:string]:BookArgument})=>{
+                        console.log('_bookings$ - ', resData);
                         let bookings:Booking[] = [];
 
                         Object.keys(resData).forEach(
@@ -66,6 +71,7 @@ export class BookingsService{
         return this._bookings$.pipe(
             map(
                 (bookings:Booking[])=>{
+                    console.log(bookings);
                     const myBookings:Booking[] = bookings.filter((booking:Booking)=>booking.userId === this._authService.userId);
                     return myBookings;
                 }
@@ -88,6 +94,7 @@ export class BookingsService{
         return this.myBookings$.pipe(
             switchMap(
               (myBookings:Booking[])=>{
+                
                 return from([...myBookings]);
               }
             ),
