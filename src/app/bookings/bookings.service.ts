@@ -41,7 +41,8 @@ export class BookingsService{
             .pipe(
                 map(
                     (resData:{[name:string]:BookArgument})=>{
-                        console.log('_bookings$ - ', resData);
+                        if(!resData) return [];
+                        //console.log('_bookings$ - ', resData);
                         let bookings:Booking[] = [];
 
                         Object.keys(resData).forEach(
@@ -71,7 +72,7 @@ export class BookingsService{
         return this._bookings$.pipe(
             map(
                 (bookings:Booking[])=>{
-                    console.log(bookings);
+                    //console.log(bookings);
                     const myBookings:Booking[] = bookings.filter((booking:Booking)=>booking.userId === this._authService.userId);
                     return myBookings;
                 }

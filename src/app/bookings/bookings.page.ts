@@ -32,9 +32,13 @@ export class BookingsPage implements OnInit {
   private updateBookings():void{
     this._bookingsService.myBookingsWithPlaces$
     .subscribe((booking:Booking)=>{
-     /*  console.log(booking);
-      if(booking) this._bookings.push(booking); */
+      console.log(booking);
+      if(booking) this._bookings.push(booking);
     });
+  }
+
+  ionViewWillEnter(){
+    console.log('ionviewwillenter');
   }
 
   private async presentAlert(book:Booking, itemSliding:IonItemSliding) {
