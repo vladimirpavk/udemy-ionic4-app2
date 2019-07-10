@@ -138,4 +138,8 @@ export class PlacesService {
   public addPlace(place:Place):Observable<Place>{
     return  this._httpClient.post<Place>('https://ionic4-udemy.firebaseio.com/places.json' + '?auth=' + this._authService.tokenId, place);
   }
+
+  public deleteOffer(place:Place):Observable<Object>{
+    return this._httpClient.delete('https://ionic4-udemy.firebaseio.com/places/'+place.id+'.json' + '?auth=' + this._authService.tokenId);
+  }
 }

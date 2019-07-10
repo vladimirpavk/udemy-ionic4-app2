@@ -9,6 +9,7 @@ import { PlacesService } from '../places/places.service';
 import { Place } from '../places/place.model';
 import { interval } from 'rxjs';
 import { AlertController, IonItemSliding } from '@ionic/angular';
+import { UIService } from '../common/ui.service';
 
 @Component({
   selector: 'app-bookings',
@@ -22,7 +23,8 @@ export class BookingsPage implements OnInit {
   constructor(
     private _bookingsService: BookingsService,
     private _placesService: PlacesService,
-    private _alertController: AlertController
+    private _alertController: AlertController,
+    private _uiService:UIService
   ) { }
 
   ngOnInit() {
@@ -41,7 +43,7 @@ export class BookingsPage implements OnInit {
     console.log('ionviewwillenter');
   }
 
-  private async presentAlert(book:Booking, itemSliding:IonItemSliding) {
+  private async presentAlert(book:Booking, itemSliding:IonItemSliding) {    
     const alert = await this._alertController.create({
       header: 'Cancel reservation!',
       message: 'Do you want to cancel your reservation ?',
@@ -56,6 +58,7 @@ export class BookingsPage implements OnInit {
           text: 'Yes',
           handler: () => {
             console.log('Cancel reservation');
+            await this._uiService.showSpinner('spinner1', 'Deleting...');
             this._bookingsService.deleteBooking(book.id).subscribe(
               (next)=>{
                 console.log(next);
@@ -73,7 +76,6 @@ export class BookingsPage implements OnInit {
         }
       ]
     });
-
     return await alert.present();
   }
 

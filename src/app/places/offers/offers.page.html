@@ -32,9 +32,12 @@
                             detail="true">
         
                             <ion-item-options side="end">
-                                <ion-item-option color="danger" (click)="editIconClicked(place, ItemSliding)">
+                                <ion-item-option color="primary" (click)="editIconClicked(place, ItemSliding)">
                                     <ion-icon name="create"></ion-icon>                                                                                               
                                 </ion-item-option>                            
+                                <ion-item-option color="danger" (click)="deleteIconClicked(place, ItemSliding)">
+                                    <ion-icon name="remove-circle-outline"></ion-icon>                                                                                               
+                                </ion-item-option>
                             </ion-item-options>
         
                             <app-offer-item [offer]="place"></app-offer-item>        
