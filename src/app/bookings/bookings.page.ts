@@ -43,8 +43,43 @@ export class BookingsPage implements OnInit {
     console.log('ionviewwillenter');
   }
 
-  private async presentAlert(book:Booking, itemSliding:IonItemSliding) {    
-    const alert = await this._alertController.create({
+  private async _presentBookingDeletedSuccess():Promise<void>{
+    const bookingDeletedSuccess:HTMLIonAlertElement = await this._alertController.create({
+      message:'Booking <strong>deleted<strong>...',
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'cancel',
+         /*  handler: ()=>{
+            //this.dismissModal();
+          } */
+        }
+      ]
+    });
+    return await bookingDeletedSuccess.present();   
+  }
+
+  private async _presentBookingDeletedFailed(book:Booking):Promise<void>{
+    const bookingDeletedFailed:HTMLIonAlertElement = await this._alertController.create({
+      message:'Booking <strong>canceled failed<strong>...',
+      buttons: [
+        {
+          text: 'Retry',          
+          handler: ()=>{
+            this._deleteBooking(book);
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    });
+    return await bookingDeletedFailed.present();   
+  }
+
+  private async presentAlert(book:Booking, itemSliding:IonItemSliding):Promise<void> {    
+    const alert:HTMLIonAlertElement = await this._alertController.create({
       header: 'Cancel reservation!',
       message: 'Do you want to cancel your reservation ?',
       buttons: [
@@ -54,29 +89,36 @@ export class BookingsPage implements OnInit {
           handler: ()=> {
             itemSliding.close();
           }                
-        }, {
+        },
+        {
           text: 'Yes',
           handler: () => {
-            console.log('Cancel reservation');
-            await this._uiService.showSpinner('spinner1', 'Deleting...');
-            this._bookingsService.deleteBooking(book.id).subscribe(
-              (next)=>{
-                console.log(next);
-              },
-              (error)=>{
-                console.log(error);
-              },
-              ()=>{
-                console.log('completed');
-                this.updateBookings();
-              }
-            )
-            itemSliding.close();
+            this._deleteBooking(book);
           }
         }
       ]
     });
     return await alert.present();
+  }
+
+  private async _deleteBooking(book:Booking){
+    await this._uiService.showSpinner('spinner1', 'Deleting...');
+    this._bookingsService.deleteBooking(book.id).subscribe(
+      (next)=>{
+        this._uiService.hideSpinner('spinner1');
+        this._presentBookingDeletedSuccess();
+        console.log('Booking deleted...');
+      },
+      (error)=>{
+        this._uiService.hideSpinner('spinner1');
+        console.log('Something bad happened...', error);
+        this._presentBookingDeletedFailed(book);
+      },
+      ()=>{
+       /*  console.log('completed');
+        this.updateBookings(); */
+      }
+    )
   }
 
   private cancelClicked(book:Booking, itemSliding:IonItemSliding):void{    
