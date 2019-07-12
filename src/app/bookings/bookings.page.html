@@ -8,47 +8,49 @@
 </ion-header>
 
 <ion-content>
-    <div *ngIf="_bookings.length===0">
-        <ion-grid>
-            <ion-row class="ion-align-items-center">
-                <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
-                   <ion-item lines="none">
-                       <ion-label>You made no booking.</ion-label>
-                       <ion-button [routerLink]="['/', 'places', 'tabs', 'discover']">Create one...</ion-button>
-                   </ion-item>
-                </ion-col>
-            </ion-row>
-        </ion-grid>              
-    </div>
-    <div *ngIf="_bookings.length > 0">
-      <ion-item-sliding *ngFor="let book of _bookings" #ItemSliding>
-        <ion-item-options slot="end">
-          <ion-item-option color="danger" (click)="cancelClicked(book, ItemSliding)">
-            <ion-icon name="remove-circle-outline"></ion-icon>
-          </ion-item-option>
-        </ion-item-options>
-        <ion-item>
-          <ion-thumbnail slot="start">
-            <ion-img [src]="book.placeId.imageUrl"></ion-img>
-          </ion-thumbnail>
-          <ion-label>
-            <h2>{{book.placeId.title}}</h2>
-            <p>Guests: {{book.guestNumber}}</p>
-          </ion-label>
-    
-          <div class="offer-details">
-            <ion-icon name="calendar" color="primary"></ion-icon>
-            <ion-text color="tertiary" class="space-left">{{
-              book.bookedFrom | date
-            }}</ion-text>
-            <span class="space-left">to</span>
-            <ion-icon name="calendar" class="space-left" color="primary"></ion-icon>
-            <ion-text color="tertiary" class="space-left">{{
-              book.bookedTo | date
-            }}</ion-text>
-          </div>
-    
-        </ion-item>
-      </ion-item-sliding>
-    </div>
+  <div *ngIf="(_myBookings$ | async) as _bookings">
+      <div *ngIf="_bookings.length===0">
+          <ion-grid>
+              <ion-row class="ion-align-items-center">
+                  <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
+                     <ion-item lines="none">
+                         <ion-label>You made no booking.</ion-label>
+                         <ion-button [routerLink]="['/', 'places', 'tabs', 'discover']">Create one...</ion-button>
+                     </ion-item>
+                  </ion-col>
+              </ion-row>
+          </ion-grid>              
+      </div>
+      <div *ngIf="_bookings.length > 0">
+        <ion-item-sliding *ngFor="let book of _bookings" #ItemSliding>
+          <ion-item-options slot="end">
+            <ion-item-option color="danger" (click)="cancelClicked(book, ItemSliding)">
+              <ion-icon name="remove-circle-outline"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+          <ion-item>
+            <ion-thumbnail slot="start">
+              <ion-img [src]="book.placeId.imageUrl"></ion-img>
+            </ion-thumbnail>
+            <ion-label>
+              <h2>{{book.placeId.title}}</h2>
+              <p>Guests: {{book.guestNumber}}</p>
+            </ion-label>
+      
+            <div class="offer-details">
+              <ion-icon name="calendar" color="primary"></ion-icon>
+              <ion-text color="tertiary" class="space-left">{{
+                book.bookedFrom | date
+              }}</ion-text>
+              <span class="space-left">to</span>
+              <ion-icon name="calendar" class="space-left" color="primary"></ion-icon>
+              <ion-text color="tertiary" class="space-left">{{
+                book.bookedTo | date
+              }}</ion-text>
+            </div>
+      
+          </ion-item>
+        </ion-item-sliding>
+      </div>
+  </div>    
 </ion-content>

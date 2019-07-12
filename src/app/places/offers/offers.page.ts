@@ -6,6 +6,7 @@ import { PlacesService } from '../places.service';
 import { Place } from '../place.model';
 
 import { Observable } from 'rxjs';
+import { UIService } from '../../common/ui.service';
 
 @Component({
   selector: 'app-offers',
@@ -19,7 +20,8 @@ export class OffersPage{
   constructor(
     private _alertController:AlertController,
     private _placesService:PlacesService,
-    private _router:Router
+    private _router:Router,
+    private _uiService:UIService
   ) { }
 
   ionViewWillEnter() {       
@@ -29,7 +31,7 @@ export class OffersPage{
   private async presentAlert(place:Place, itemSliding:IonItemSliding) {
     const alert = await this._alertController.create({
       header: 'Cancel offer!',
-      message: 'Do you want to cancel selected offer ?',
+      message: 'Do you want to delete selected offer ?',
       buttons: [
         {
           text: 'No',
@@ -40,18 +42,22 @@ export class OffersPage{
         }, {
           text: 'Yes',
           handler: () => {
-            console.log('Cancel offer', place.id);
-            /* this._bookingsService.deleteBooking(book.id).subscribe(
+            //console.log('Cancel offer', place.id);
+            this._uiService.showSpinner('spinner1', 'Deleting...');
+            this._placesService.deleteOffer(place.id).subscribe(
               (next)=>{
-                console.log(next);
+                //console.log(next);
+                this._uiService.hideSpinner('spinner1');
+                this._places$ = this._placesService.offers;
               },
               (error)=>{
-                console.log(error);
+                //console.log(error);
+
               },
               ()=>{
-                console.log('completed');                
+                //console.log('completed');                
               }
-            ) */
+            )
             itemSliding.close();
           }
         }

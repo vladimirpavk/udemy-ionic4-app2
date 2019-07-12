@@ -91,11 +91,10 @@ export class BookingsService{
         )
     }
 
-    public get myBookingsWithPlaces$():Observable<Booking>{
+    /* public get myBookingsWithPlaces$():Observable<Booking>{
         return this.myBookings$.pipe(
             switchMap(
-              (myBookings:Booking[])=>{
-                
+              (myBookings:Booking[])=>{                
                 return from([...myBookings]);
               }
             ),
@@ -118,5 +117,13 @@ export class BookingsService{
               }
             )
         );
-    }
+    } */
+    public get myBookingsWithPlaces$():Observable<Booking[]>{
+        return this.myBookings$.pipe(
+            switchMap(
+              (myBookings:Booking[])=>{
+                  return this._placesService.findByBookings(myBookings);
+              }        
+            ));            
+    } 
 }

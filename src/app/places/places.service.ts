@@ -8,6 +8,7 @@ import { Common } from '../common/common';
 
 import { AuthService } from '../auth/auth.service';
 import { OffersPage } from './offers/offers.page';
+import { Booking } from '../bookings/booking.model';
 
 interface PlaceData{
   availableFrom: string,
@@ -129,6 +130,24 @@ export class PlacesService {
     );    
   }
 
+  public findByBookings(bookings:Booking[]):Observable<Booking[]>{
+    return this._places$.pipe(
+      map(
+        (places:Place[])=>{
+          bookings.forEach(
+            (book:Booking)=>{
+              let foundPlaces:Place[] = places.filter(
+                (place:Place)=>place.id===book.placeId
+              );
+              book.placeId = foundPlaces[0];
+            }
+          );
+          return bookings;
+        }
+      )
+    )
+  }
+
   public updatePlace(newPlace:Place):Observable<Object>{
     const url=`https://ionic4-udemy.firebaseio.com/places/${newPlace.id}.json`;
     return this._httpClient.put(url, { ...newPlace, id:null });
@@ -139,7 +158,7 @@ export class PlacesService {
     return  this._httpClient.post<Place>('https://ionic4-udemy.firebaseio.com/places.json' + '?auth=' + this._authService.tokenId, place);
   }
 
-  public deleteOffer(place:Place):Observable<Object>{
-    return this._httpClient.delete('https://ionic4-udemy.firebaseio.com/places/'+place.id+'.json' + '?auth=' + this._authService.tokenId);
+  public deleteOffer(placeId:string):Observable<Object>{
+    return this._httpClient.delete('https://ionic4-udemy.firebaseio.com/places/'+placeId+'.json' + '?auth=' + this._authService.tokenId);
   }
 }

@@ -17,8 +17,8 @@ import { UIService } from '../common/ui.service';
   styleUrls: ['./bookings.page.scss'],
 })
 export class BookingsPage implements OnInit {
-
-  private _bookings:Booking[] = [];
+  
+  private _myBookings$:Observable<Booking[]>;
 
   constructor(
     private _bookingsService: BookingsService,
@@ -27,20 +27,8 @@ export class BookingsPage implements OnInit {
     private _uiService:UIService
   ) { }
 
-  ngOnInit() {
-    this.updateBookings();   
-  }
-
-  private updateBookings():void{
-    this._bookingsService.myBookingsWithPlaces$
-    .subscribe((booking:Booking)=>{
-      console.log(booking);
-      if(booking) this._bookings.push(booking);
-    });
-  }
-
-  ionViewWillEnter(){
-    console.log('ionviewwillenter');
+  ngOnInit() {   
+    this._myBookings$ = this._bookingsService.myBookingsWithPlaces$;    
   }
 
   private async _presentBookingDeletedSuccess():Promise<void>{
@@ -50,9 +38,10 @@ export class BookingsPage implements OnInit {
         {
           text: 'Ok',
           role: 'cancel',
-         /*  handler: ()=>{
+          handler: ()=>{
             //this.dismissModal();
-          } */
+            this._myBookings$ = this._bookingsService.myBookingsWithPlaces$; 
+          }
         }
       ]
     });
@@ -107,11 +96,11 @@ export class BookingsPage implements OnInit {
       (next)=>{
         this._uiService.hideSpinner('spinner1');
         this._presentBookingDeletedSuccess();
-        console.log('Booking deleted...');
+        //console.log('Booking deleted...');
       },
       (error)=>{
         this._uiService.hideSpinner('spinner1');
-        console.log('Something bad happened...', error);
+        //console.log('Something bad happened...', error);
         this._presentBookingDeletedFailed(book);
       },
       ()=>{
