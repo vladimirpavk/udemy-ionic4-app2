@@ -67,18 +67,14 @@ export class DiscoverPage implements OnInit{
     queueScheduler.schedule(
       (value:number)=>{
         console.log(`${queueScheduler.now()-timeNow}ms`, 'queueScheduler - '+value);
-      }, 500, 2
+      }, 1000, 2
     );
 
     queueScheduler.schedule(
       (value:number)=>{
         console.log(`${queueScheduler.now()-timeNow}ms`, 'queueScheduler - '+value);
       }, 500, 3
-    );
-
-    from([1,2,3], queueScheduler).subscribe(
-      (value)=>console.log(value)
-    ); */
+    );     */
     
     /* timeNow = Date.now();
 
@@ -108,7 +104,7 @@ export class DiscoverPage implements OnInit{
 
     from() */
 
-    let observableX = new Observable(
+    /* let observableX = new Observable(
       (observer)=>{
         let timeNow=Date.now();
         queueScheduler.schedule(
@@ -122,10 +118,20 @@ export class DiscoverPage implements OnInit{
         queueScheduler.schedule(
           (value)=>{
             observer.next(`${queueScheduler.now()-timeNow}ms ` + value);
-          }, 500, 3);
+          }, 1500, 3);
       }).subscribe(
         (value)=>console.log(value)
+      ); */
+
+      console.log('A');
+      setTimeout(
+        ()=>{
+          console.log('B');
+        },0
       );
+      console.log('C');
+
+      
   }
 
   private segmentChanged(event: CustomEvent){
