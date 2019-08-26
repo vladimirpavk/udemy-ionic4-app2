@@ -123,15 +123,91 @@ export class DiscoverPage implements OnInit{
         (value)=>console.log(value)
       ); */
 
+      let timeNow = Date.now();
+
       console.log('A');
+
+      queueScheduler.schedule(
+        (value:number)=>{
+          console.log(`${queueScheduler.now()-timeNow}ms`, 'queueScheduler - '+value);
+        }, 500, 1
+      );
+  
+      queueScheduler.schedule(
+        (value:number)=>{
+          console.log(`${queueScheduler.now()-timeNow}ms`, 'queueScheduler - '+value);
+        }, 1000, 2
+      );
+  
+      queueScheduler.schedule(
+        (value:number)=>{
+          console.log(`${queueScheduler.now()-timeNow}ms`, 'queueScheduler - '+value);
+        }, 500, 3
+      );
+
       setTimeout(
         ()=>{
           console.log('B');
         },0
       );
-      console.log('C');
 
-      
+      asyncScheduler.schedule(
+        (value:number)=>{
+          console.log(`${asyncScheduler.now()-timeNow}ms`, 'asyncScheduler - '+value);
+        }, 500, 1
+      );
+  
+      asyncScheduler.schedule(
+        (value:number)=>{
+          console.log(`${asyncScheduler.now()-timeNow}ms`, 'asyncScheduler - '+value);
+        }, 1000, 2
+      );
+  
+      asyncScheduler.schedule(
+        (value:number)=>{
+          console.log(`${asyncScheduler.now()-timeNow}ms`, 'asyncScheduler - '+value);
+        }, 500, 3
+      );
+  
+      asyncScheduler.schedule(
+        (value:number)=>{
+          console.log(`${asyncScheduler.now()-timeNow}ms`, 'asyncScheduler - '+value);
+        }, 750, 3
+      );
+
+      let posmatrac:Observable<string> = new Observable<string>(
+        (observer)=>{
+          //any async task        
+              observer.next('from Observable - any value');                    
+        }
+      );
+     
+      this.macroTask('MacroTask value');
+
+      let obecanje = new Promise(
+        (resolve,reject)=>{
+          //any async task
+          resolve('from Promise - Vlada1');
+        }
+      );
+
+      obecanje.then(
+        (value:string)=>{
+          console.log(value);
+        }
+      )
+
+      posmatrac.subscribe(
+        (value:string)=>{
+          console.log(value);
+        }
+      )  
+
+      console.log('C');          
+  }
+
+  private macroTask(value:string){
+    console.log(value);
   }
 
   private segmentChanged(event: CustomEvent){
