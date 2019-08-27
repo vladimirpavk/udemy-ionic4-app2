@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { PlacesService } from '../places.service';
 import { Place } from '../place.model';
 import { Common } from '../../common/common';
-import { Observable, from, asyncScheduler, queueScheduler } from 'rxjs';
+import { Observable, from, asyncScheduler, queueScheduler, asapScheduler, of } from 'rxjs';
 import { UIService } from '../../common/ui.service';
 
 @Component({
@@ -127,7 +127,7 @@ export class DiscoverPage implements OnInit{
 
       console.log('A');
 
-      queueScheduler.schedule(
+     /*  queueScheduler.schedule(
         (value:number)=>{
           console.log(`${queueScheduler.now()-timeNow}ms`, 'queueScheduler - '+value);
         }, 500, 1
@@ -143,13 +143,31 @@ export class DiscoverPage implements OnInit{
         (value:number)=>{
           console.log(`${queueScheduler.now()-timeNow}ms`, 'queueScheduler - '+value);
         }, 500, 3
+      ); */
+
+      queueScheduler.schedule(
+        ()=>{
+          console.log(`${queueScheduler.now()-timeNow}ms`, 'queueScheduler - '+1);
+        }
+      );
+  
+      queueScheduler.schedule(
+        ()=>{
+          console.log(`${queueScheduler.now()-timeNow}ms`, 'queueScheduler - '+2);
+        }
+      );
+  
+      queueScheduler.schedule(
+        ()=>{
+          console.log(`${queueScheduler.now()-timeNow}ms`, 'queueScheduler - '+3);
+        }
       );
 
-      setTimeout(
+      asapScheduler.schedule(
         ()=>{
-          console.log('B');
-        },0
-      );
+          console.log('asap');
+        }
+      )
 
       asyncScheduler.schedule(
         (value:number)=>{
@@ -174,6 +192,14 @@ export class DiscoverPage implements OnInit{
           console.log(`${asyncScheduler.now()-timeNow}ms`, 'asyncScheduler - '+value);
         }, 750, 3
       );
+      
+      setTimeout(
+        ()=>{
+          console.log('B');
+        },0
+      );
+
+     
 
       let posmatrac:Observable<string> = new Observable<string>(
         (observer)=>{
@@ -182,7 +208,7 @@ export class DiscoverPage implements OnInit{
         }
       );
      
-      this.macroTask('MacroTask value');
+      //this.macroTask('MacroTask value');
 
       let obecanje = new Promise(
         (resolve,reject)=>{
@@ -202,6 +228,20 @@ export class DiscoverPage implements OnInit{
           console.log(value);
         }
       )  
+
+      
+
+      of(1,2,34,5).subscribe(
+        (value:number)=>{
+          console.log(value);
+        },
+        (error:any)=>{
+          console.log(error);
+        },
+        ()=>{
+          console.log('Stream completed...');
+        }
+      )
 
       console.log('C');          
   }
