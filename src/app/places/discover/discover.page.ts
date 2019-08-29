@@ -3,7 +3,7 @@ import { PlacesService } from '../places.service';
 import { Place } from '../place.model';
 import { Common } from '../../common/common';
 import { Observable, from, asyncScheduler, queueScheduler, asapScheduler, of, interval } from 'rxjs';
-import { concatMap, take, switchMap } from 'rxjs/operators';
+import { concat, concatMap, take, switchMap, mergeMap } from 'rxjs/operators';
 
 import { UIService } from '../../common/ui.service';
 
@@ -28,13 +28,13 @@ export class DiscoverPage implements OnInit{
   ngOnInit(){
 
     let outterObervableInterval:number = 1000;
-    let innerObservableInterval:number = 150;
+    let innerObservableInterval:number = 90;
 
     interval(outterObervableInterval).pipe(
       take(5),
-      concatMap(
+      concat(
         (value:number)=>{
-          console.log('obs1 - ', value)
+          //console.log('obs1 - ', value)
           return interval(innerObservableInterval).pipe(take(10));
         }
       )  
