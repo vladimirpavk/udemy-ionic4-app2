@@ -5,6 +5,9 @@ import { Place } from '../../place.model';
 import { PlacesService } from '../../places.service';
 import { AuthService } from '../../../auth/auth.service';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { OverlayEventDetail } from '@ionic/core';
+import { LocationPickerComponent } from '../../../shared/location-picker/location-picker.component';
 
 @Component({
   selector: 'app-new-offer',
@@ -21,7 +24,8 @@ export class NewOfferPage implements OnInit {
   constructor(
     private _placesService:PlacesService,
     private _authService:AuthService,
-    private _router:Router
+    private _router:Router,
+    private _modalCtrl:ModalController
   ) { }
 
   ngOnInit() {
@@ -67,5 +71,21 @@ export class NewOfferPage implements OnInit {
           }
         )      
     }
+  }
+
+  private async createLocationPickerModal():Promise<OverlayEventDetail>{
+    const modalDialog:HTMLIonModalElement = await this._modalCtrl.create({
+      component:LocationPickerComponent
+    });
+    modalDialog.present();
+    return modalDialog.onDidDismiss();
+  }
+
+  private onLocationButtonClicked():void{
+    this.createLocationPickerModal().then(
+      (data)=>{
+        console.log(data);
+      }
+    ).catch(()=>console.log('catch'));
   }
 }

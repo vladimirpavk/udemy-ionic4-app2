@@ -32,18 +32,7 @@ export class CreateBookingPage implements OnInit {
   ngOnInit() {
     this._userEmail = this._authService.email;    
   }
-
- /*  private dismissModal(status:string){
-    this._modalController.dismiss({
-      booking: {
-        status: status,      
-        numOfGuests:this.form.value['numOfGuests'],
-        startFrom:this.form.value['fromDate'],
-        endDate:this.form.value['toDate']
-      }    
-    });
-  } */
-
+ 
   private async _presentBookingSuccess(){
     const alertPopUp = await this._alertController.create({      
       message:'Booking <strong>successfull<strong>...',
