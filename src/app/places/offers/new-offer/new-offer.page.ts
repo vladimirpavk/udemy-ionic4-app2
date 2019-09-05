@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
 import { LocationPickerComponent } from '../../../shared/location-picker/location-picker.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-new-offer',
@@ -25,7 +26,8 @@ export class NewOfferPage implements OnInit {
     private _placesService:PlacesService,
     private _authService:AuthService,
     private _router:Router,
-    private _modalCtrl:ModalController
+    private _modalCtrl:ModalController,
+    private _httpClient:HttpClient
   ) { }
 
   ngOnInit() {
@@ -84,8 +86,23 @@ export class NewOfferPage implements OnInit {
   private onLocationButtonClicked():void{
     this.createLocationPickerModal().then(
       (data)=>{
-        console.log(data);
+        //console.log(data);
+        this.geoCode(data.data.lat, data.data.lng).subscribe(
+          (response)=>{
+            console.log(response);
+          },
+          (error)=>{
+            console.log(error);
+          },
+          ()=>{
+            console.log('completed...');
+          }
+        )
       }
     ).catch(()=>console.log('catch'));
+  }
+
+  private geoCode(lat:number, lng:number){
+    return this._httpClient.get<any>(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyB8FPbWLlijfbzfyykp308MCZGsQ7Ge-tQ`);
   }
 }
