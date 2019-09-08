@@ -35,3 +35,4 @@ UserInterfaceState.xcuserstate
 
 config.ts
 environment.ts
+environment.prod.ts

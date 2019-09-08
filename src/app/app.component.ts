@@ -1,19 +1,19 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonMenu, Platform, MenuController } from '@ionic/angular';
 
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
-import * as firebase from 'firebase/app';
+import { environment } from './../environments/environment';
 
-import { ConfigClass } from './common/config';
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
 
   @ViewChild('first1') private _menu1:IonMenu;
 
@@ -27,7 +27,7 @@ export class AppComponent {
     this.initializeApp();
 
     firebase.initializeApp(
-      ConfigClass.firebaseConfig()
+      environment.firebaseApiConfiguration
     );
   }
 
@@ -36,6 +36,16 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  ngOnInit(){
+     let doc = document as any;
+     let script = doc.createElement('script');
+     script.src= "https://maps.googleapis.com/maps/api/js?key="+environment.googleMapsApiKey;
+     script.async = true;
+     script.defer = true;
+
+     document.head.appendChild(script);
   }
 
   bookingItemClicked(){    

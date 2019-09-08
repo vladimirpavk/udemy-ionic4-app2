@@ -24,7 +24,7 @@ export class UIService{
         return await this._presentLoading(id, message);
     }
 
-    public async hideSpinner(id:string):Promise<void>{
+    public async hideSpinner(id:string){
         return await this._loadingCtrl.dismiss(id);
     }
 }
