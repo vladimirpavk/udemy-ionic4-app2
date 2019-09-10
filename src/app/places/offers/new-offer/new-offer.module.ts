@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
 
 import { NewOfferPage } from './new-offer.page';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -25,6 +27,10 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [NewOfferPage]
+  declarations: [NewOfferPage],
+  providers:[
+    InAppBrowser,
+    Camera
+  ]
 })
 export class NewOfferPageModule {}

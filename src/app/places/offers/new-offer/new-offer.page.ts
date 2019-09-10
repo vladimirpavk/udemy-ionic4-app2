@@ -10,6 +10,9 @@ import { OverlayEventDetail } from '@ionic/core';
 import { LocationPickerComponent } from '../../../shared/location-picker/location-picker.component';
 import { HttpClient } from '@angular/common/http';
 
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+
 @Component({
   selector: 'app-new-offer',
   templateUrl: './new-offer.page.html',
@@ -27,7 +30,9 @@ export class NewOfferPage implements OnInit {
     private _authService:AuthService,
     private _router:Router,
     private _modalCtrl:ModalController,
-    private _httpClient:HttpClient
+    private _httpClient:HttpClient,
+    private _browser:InAppBrowser,
+    private _camera:Camera
   ) { }
 
   ngOnInit() {
@@ -100,6 +105,24 @@ export class NewOfferPage implements OnInit {
         )
       }
     ).catch(()=>console.log('catch'));
+  }
+
+  private onMakePhotoButtonClicked(){
+    //const browser = this._browser.create('https://vladimirpavk.com');
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this._camera.DestinationType.FILE_URI,
+      encodingType: this._camera.EncodingType.JPEG,
+      mediaType: this._camera.MediaType.PICTURE
+    }
+    
+    this._camera.getPicture(options).then((imageData) => {
+     // imageData is either a base64 encoded string or a file URI
+     // If it's base64 (DATA_URL):
+     let base64Image = 'data:image/jpeg;base64,' + imageData;
+    }, (err) => {
+     // Handle error
+    });
   }
 
   private geoCode(lat:number, lng:number){
